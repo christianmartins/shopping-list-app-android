@@ -5,7 +5,10 @@ data class ShoppingList (
     var title: String,
     var description: String,
     var userId: String,
+    var authorName: String,
     var createAt: Long,
     var updateAt: Long,
-    var deleted: Boolean
+    var deleted: Boolean,
+    var totalItemsToComplete: Int,
+    var currentItemsToComplete: Int
 ): BaseModel()
