@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Shopping List App</string>
+    <string name="empty_list">Lista vazia!</string>
 </resources>
