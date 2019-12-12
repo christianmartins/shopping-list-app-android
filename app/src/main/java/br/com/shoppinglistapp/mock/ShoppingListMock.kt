@@ -15,9 +15,9 @@ object ShoppingListMock {
                 userId = "userId $i",
                 createAt = DateUtils.getDateTime(),
                 updateAt = DateUtils.getDateTime(),
-                authorName = "authorName %i",
+                authorName = "authorName $i",
                 currentItemsToComplete = i,
-                totalItemsToComplete = i * numberOfItems,
+                totalItemsToComplete = numberOfItems,
                 deleted = false
             ).apply {
                 mockList.add(this)
