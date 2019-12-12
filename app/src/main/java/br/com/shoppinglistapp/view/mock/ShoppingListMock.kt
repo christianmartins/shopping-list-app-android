@@ -9,10 +9,10 @@ object ShoppingListMock {
         val mockList = ArrayList<ShoppingList>()
         (0 until numberOfItems).forEach { i ->
             ShoppingList(
-                shoppingListId = i.toString(),
+                id = i.toString(),
                 title = "title $i",
-                description = "title $i",
-                userId = "title $i",
+                description = "description $i",
+                userId = "userId $i",
                 createAt = DateUtils.getDateTime(),
                 updateAt = DateUtils.getDateTime(),
                 deleted = false

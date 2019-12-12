@@ -1,7 +1,7 @@
 package br.com.shoppinglistapp.view.model
 
 data class ShoppingList (
-    var shoppingListId: String,
+    var id: String,
     var title: String,
     var description: String,
     var userId: String,

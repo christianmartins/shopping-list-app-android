@@ -2,4 +2,8 @@ package br.com.shoppinglistapp.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 
-open class BaseActivity: AppCompatActivity()
+abstract class BaseActivity: AppCompatActivity() {
+    fun hideActionBar(){
+        supportActionBar?.hide()
+    }
+}
