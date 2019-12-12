@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import br.com.shoppinglistapp.R
 import br.com.shoppinglistapp.view.adapter.ShoppingListAdapter
-import br.com.shoppinglistapp.view.presenter.ShoppingListFragmentPresenter
+import br.com.shoppinglistapp.presenter.ShoppingListFragmentPresenter
 import kotlinx.android.synthetic.main.shopping_list_layout.*
 
 class ShoppingListFragment: BaseCollection() {

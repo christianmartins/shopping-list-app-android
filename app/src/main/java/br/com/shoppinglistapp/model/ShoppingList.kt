@@ -1,4 +1,4 @@
-package br.com.shoppinglistapp.view.model
+package br.com.shoppinglistapp.model
 
 data class ShoppingList (
     var id: String,

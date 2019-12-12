@@ -1,7 +1,7 @@
-package br.com.shoppinglistapp.view.mock
+package br.com.shoppinglistapp.mock
 
-import br.com.shoppinglistapp.view.model.ShoppingList
-import br.com.shoppinglistapp.view.utils.DateUtils
+import br.com.shoppinglistapp.model.ShoppingList
+import br.com.shoppinglistapp.utils.DateUtils
 
 object ShoppingListMock {
 
@@ -15,6 +15,9 @@ object ShoppingListMock {
                 userId = "userId $i",
                 createAt = DateUtils.getDateTime(),
                 updateAt = DateUtils.getDateTime(),
+                authorName = "authorName %i",
+                currentItemsToComplete = i,
+                totalItemsToComplete = i * numberOfItems,
                 deleted = false
             ).apply {
                 mockList.add(this)

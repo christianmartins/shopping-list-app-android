@@ -2,7 +2,7 @@ package br.com.shoppinglistapp.view.viewholder
 
 import android.view.View
 import br.com.shoppinglistapp.R
-import br.com.shoppinglistapp.view.model.ShoppingList
+import br.com.shoppinglistapp.model.ShoppingList
 import com.google.android.material.textview.MaterialTextView
 
 class ShoppingListViewHolder(itemView: View): BaseViewHolder(itemView) {

@@ -1,4 +1,4 @@
-package br.com.shoppinglistapp.view.utils
+package br.com.shoppinglistapp.utils
 
 import java.util.*
 
