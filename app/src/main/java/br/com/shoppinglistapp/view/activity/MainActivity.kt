@@ -1,9 +1,9 @@
-package br.com.shoppinglistapp
+package br.com.shoppinglistapp.view.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import br.com.shoppinglistapp.R
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
