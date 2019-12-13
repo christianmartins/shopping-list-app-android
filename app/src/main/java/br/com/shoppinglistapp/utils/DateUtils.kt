@@ -16,4 +16,6 @@ object DateUtils {
         val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return format.format(date)
     }
+
+    fun getTimeStamp() = System.currentTimeMillis()
 }

@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import br.com.shoppinglistapp.R
-import br.com.shoppinglistapp.view.adapter.ShoppingListAdapter
 import br.com.shoppinglistapp.presenter.ShoppingListFragmentPresenter
+import br.com.shoppinglistapp.view.adapter.ShoppingListAdapter
 import kotlinx.android.synthetic.main.shopping_list_layout.*
 
-class ShoppingListFragment: BaseCollection() {
+class ShoppingListFragment: BaseCollectionFragment() {
 
     private val presenter by lazy {
         ShoppingListFragmentPresenter()
@@ -29,21 +30,23 @@ class ShoppingListFragment: BaseCollection() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initList()
+        onClickFloatingButton()
+    }
 
+    private fun initList(){
         val list = presenter.getData()
         adapter.setList(list)
         shopping_list_recycler_view?.adapter = adapter
     }
 
-    override fun initAdapter() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun onClickFloatingButton(){
+        getFab()?.setOnClickListener {
+            findNavController().navigate(
+                ShoppingListFragmentDirections.actionShoppingListFragmentToItemShoppingListFragment()
+            )
+        }
     }
 
-    override fun initRecycler() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
-    override fun loadList() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 }

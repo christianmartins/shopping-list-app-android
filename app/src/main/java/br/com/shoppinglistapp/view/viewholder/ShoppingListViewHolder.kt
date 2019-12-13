@@ -4,9 +4,12 @@ import android.view.View
 import br.com.shoppinglistapp.R
 import br.com.shoppinglistapp.model.ShoppingList
 import br.com.shoppinglistapp.utils.DateUtils
+import br.com.shoppinglistapp.utils.interfaces.ItemShoppingListListeners
 import com.google.android.material.textview.MaterialTextView
 
-class ShoppingListViewHolder(itemView: View): BaseViewHolder(itemView) {
+class ShoppingListViewHolder(
+    itemView: View
+): BaseViewHolder(itemView) {
     private val title = itemView.findViewById<MaterialTextView>(R.id.shopping_list_title)
     private val description = itemView.findViewById<MaterialTextView>(R.id.shopping_list_description)
     private val authorName = itemView.findViewById<MaterialTextView>(R.id.shopping_list_author_name)

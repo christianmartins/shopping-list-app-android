@@ -10,12 +10,12 @@ object ShoppingListMock {
         (0 until numberOfItems).forEach { i ->
             ShoppingList(
                 id = i.toString(),
-                title = "title $i",
-                description = "description $i",
-                userId = "userId $i",
+                title = "Title $i",
+                description = "Description $i",
+                userId = "UserId $i",
                 createAt = DateUtils.getDateTime(),
                 updateAt = DateUtils.getDateTime(),
-                authorName = "authorName $i",
+                authorName = "A uthorName $i",
                 currentItemsToComplete = i,
                 totalItemsToComplete = numberOfItems,
                 deleted = false

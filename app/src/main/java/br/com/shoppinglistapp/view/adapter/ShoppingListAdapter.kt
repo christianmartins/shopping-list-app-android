@@ -9,7 +9,7 @@ import br.com.shoppinglistapp.view.viewholder.ShoppingListViewHolder
 
 class ShoppingListAdapter: BaseAdapter() {
 
-    private val shoppingList = ArrayList<ShoppingList>()
+    private val shoppingLists = ArrayList<ShoppingList>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return ShoppingListViewHolder(
@@ -18,19 +18,19 @@ class ShoppingListAdapter: BaseAdapter() {
     }
 
     override fun getItemId(position: Int): Long {
-        return shoppingList[position].id.hashCode().toLong()
+        return shoppingLists[position].id.hashCode().toLong()
     }
 
     override fun getItemCount(): Int {
-        return shoppingList.size
+        return shoppingLists.size
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        val item = shoppingList[position]
+        val item = shoppingLists[position]
         holder.setItem(item)
     }
 
     fun setList(list: List<ShoppingList>){
-        this.shoppingList.addAll(list)
+        this.shoppingLists.addAll(list)
     }
 }

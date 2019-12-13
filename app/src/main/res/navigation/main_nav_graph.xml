@@ -10,5 +10,20 @@
         android:name="br.com.shoppinglistapp.view.fragment.ShoppingListFragment"
         android:label="ShoppingListFragment"
         tools:layout="@layout/shopping_list_layout"
-        />
+        >
+        <action
+            android:id="@+id/action_shoppingListFragment_to_itemShoppingListFragment"
+            app:destination="@id/itemShoppingListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemShoppingListFragment"
+        android:name="br.com.shoppinglistapp.view.fragment.ItemShoppingListFragment"
+        tools:layout="@layout/item_shopping_list_layout"
+        android:label="ItemShoppingListFragment" >
+        <argument
+            android:name="shoppingListId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 </navigation>
