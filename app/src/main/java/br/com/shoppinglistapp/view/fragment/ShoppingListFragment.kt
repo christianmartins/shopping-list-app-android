@@ -25,6 +25,7 @@ class ShoppingListFragment: BaseCollectionFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        getFab()?.setImageResource(R.drawable.ic_add_white_24dp)
         return inflater.inflate(R.layout.shopping_list_layout, container, false)
     }
 
