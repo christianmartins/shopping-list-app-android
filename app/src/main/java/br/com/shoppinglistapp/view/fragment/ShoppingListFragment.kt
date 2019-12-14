@@ -12,12 +12,14 @@ import kotlinx.android.synthetic.main.shopping_list_layout.*
 
 class ShoppingListFragment: BaseCollectionFragment() {
 
-    private val presenter by lazy {
-        ShoppingListFragmentPresenter()
-    }
+    private val presenter by lazy { ShoppingListFragmentPresenter() }
 
-    private val adapter by lazy {
-        ShoppingListAdapter()
+    private val adapter by lazy { ShoppingListAdapter() }
+
+    private val shoppingLists by lazy {  presenter.getData() }
+
+    init {
+        adapter.setList(shoppingLists)
     }
 
     override fun onCreateView(
@@ -31,13 +33,11 @@ class ShoppingListFragment: BaseCollectionFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initList()
+        initAdapter()
         onClickFloatingButton()
     }
 
-    private fun initList(){
-        val list = presenter.getData()
-        adapter.setList(list)
+    private fun initAdapter(){
         shopping_list_recycler_view?.adapter = adapter
     }
 

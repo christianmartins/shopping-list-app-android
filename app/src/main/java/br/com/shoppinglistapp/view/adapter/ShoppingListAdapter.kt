@@ -17,6 +17,8 @@ class ShoppingListAdapter: BaseAdapter() {
         )
     }
 
+    fun size() = shoppingLists.size
+
     override fun getItemId(position: Int): Long {
         return shoppingLists[position].id.hashCode().toLong()
     }
