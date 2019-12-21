@@ -3,7 +3,7 @@ package br.com.shoppinglistapp.view.adapter
 import android.view.View
 import android.view.ViewGroup
 import br.com.shoppinglistapp.R
-import br.com.shoppinglistapp.model.ItemShoppingList
+import br.com.shoppinglistapp.data.model.ItemShoppingList
 import br.com.shoppinglistapp.utils.interfaces.ItemShoppingListListeners
 import br.com.shoppinglistapp.view.viewholder.BaseViewHolder
 import br.com.shoppinglistapp.view.viewholder.ItemShoppingListViewHolder

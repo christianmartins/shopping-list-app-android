@@ -1,9 +1,7 @@
-package br.com.shoppinglistapp.mock
+package br.com.shoppinglistapp.data.mock
 
-import br.com.shoppinglistapp.model.ItemShoppingList
-import br.com.shoppinglistapp.model.ShoppingList
+import br.com.shoppinglistapp.data.model.ItemShoppingList
 import br.com.shoppinglistapp.utils.DateUtils
-import java.util.*
 import kotlin.collections.ArrayList
 
 object ItemShoppingListMock {

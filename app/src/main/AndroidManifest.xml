@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="br.com.shoppinglistapp">
 
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"

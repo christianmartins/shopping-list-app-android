@@ -6,12 +6,7 @@ import java.lang.ref.WeakReference
 
 abstract class BaseCollectionFragment: BaseFragment() {
 
-//    protected lateinit var adapter: RecyclerView.Adapter<*>
-//    abstract fun initAdapter()
-//    abstract fun initRecycler()
-//    abstract fun loadList()
-
-    protected fun getWeakMainActivity(): WeakReference<MainActivity?> {
+    fun getWeakMainActivity(): WeakReference<MainActivity?> {
         return WeakReference(activity as? MainActivity)
     }
 

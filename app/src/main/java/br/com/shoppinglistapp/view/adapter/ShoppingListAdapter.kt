@@ -3,7 +3,7 @@ package br.com.shoppinglistapp.view.adapter
 import android.view.View
 import android.view.ViewGroup
 import br.com.shoppinglistapp.R
-import br.com.shoppinglistapp.model.ShoppingList
+import br.com.shoppinglistapp.data.model.ShoppingList
 import br.com.shoppinglistapp.view.viewholder.BaseViewHolder
 import br.com.shoppinglistapp.view.viewholder.ShoppingListViewHolder
 
@@ -16,8 +16,6 @@ class ShoppingListAdapter: BaseAdapter() {
             View.inflate(parent.context, R.layout.shopping_list_view_holder_layout, null)
         )
     }
-
-    fun size() = shoppingLists.size
 
     override fun getItemId(position: Int): Long {
         return shoppingLists[position].id.hashCode().toLong()

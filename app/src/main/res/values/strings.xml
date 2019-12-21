@@ -11,4 +11,8 @@
     <string name="item_shopping_list_txt">1 pacote de bolacha maizena</string>
     <!--End-->
 
+    <string name="speech_not_supported">Reconhecimento de voz não suportado!</string>
+    <string name="speech_prompt">Test reconhecimento de voz!</string>
+
+
 </resources>

@@ -1,6 +1,6 @@
-package br.com.shoppinglistapp.mock
+package br.com.shoppinglistapp.data.mock
 
-import br.com.shoppinglistapp.model.ShoppingList
+import br.com.shoppinglistapp.data.model.ShoppingList
 import br.com.shoppinglistapp.utils.DateUtils
 
 object ShoppingListMock {
