@@ -6,7 +6,7 @@ import java.lang.ref.WeakReference
 
 abstract class BaseCollectionFragment: BaseFragment() {
 
-    fun getWeakMainActivity(): WeakReference<MainActivity?> {
+    private fun getWeakMainActivity(): WeakReference<MainActivity?> {
         return WeakReference(activity as? MainActivity)
     }
 

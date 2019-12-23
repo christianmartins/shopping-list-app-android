@@ -14,5 +14,9 @@
     <string name="speech_not_supported">Reconhecimento de voz não suportado!</string>
     <string name="speech_prompt">Test reconhecimento de voz!</string>
 
+    <!--Bottom navigation-->
+    <string name="home_navigation">Home</string>
+
+
 
 </resources>
