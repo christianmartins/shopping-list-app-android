@@ -40,6 +40,7 @@ class MainActivity : BaseActivity(){
         if (savedInstanceState == null) {
             currentNavController = setupBottomNavigationBar()
         }
+
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -53,8 +54,8 @@ class MainActivity : BaseActivity(){
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
-            R.id.home_navigation -> {
-                findNavController(R.id.home_navigation).navigate(ShoppingListFragmentDirections.actionGlobalShoppingListFragment())
+            R.id.shoppingListFragment -> {
+                findNavController(R.id.nav_host_container).navigate(ShoppingListFragmentDirections.actionGlobalShoppingListFragment())
                 true
             }
             else -> super.onOptionsItemSelected(item)

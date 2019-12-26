@@ -1,20 +1,26 @@
 package br.com.shoppinglistapp.view.fragment
 
+import android.content.ComponentName
+import android.content.Intent
 import android.os.Bundle
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import br.com.shoppinglistapp.R
-import br.com.shoppinglistapp.presenter.ShoppingListFragmentPresenter
 import br.com.shoppinglistapp.utils.GlobalUtils
+import br.com.shoppinglistapp.utils.RecognitionListener
+import br.com.shoppinglistapp.utils.RecognitionUtils
 import br.com.shoppinglistapp.utils.interfaces.ShoppingFragmentListClickHandler
 import br.com.shoppinglistapp.view.adapter.ShoppingListAdapter
 import kotlinx.android.synthetic.main.shopping_list_layout.*
+import java.util.*
+
 
 class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickHandler {
-
-    private val presenter by lazy { ShoppingListFragmentPresenter() }
 
     private val adapter by lazy { ShoppingListAdapter(this) }
 
@@ -43,7 +49,12 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
 
     private fun onClickFloatingButton(){
         getFab()?.setOnClickListener {
-            navigateToItemsShoppingListFragment("")//TEMP
+//            navigateToItemsShoppingListFragment("")//TEMP
+            try{
+                RecognitionUtils().startToSpeech()
+            }catch (e: Exception){
+                e.printStackTrace()
+            }
         }
     }
 
@@ -56,6 +67,5 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
     override fun onClickItemList(shoppingListId: String) {
         navigateToItemsShoppingListFragment(shoppingListId)
     }
-
 
 }
