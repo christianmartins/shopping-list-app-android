@@ -4,10 +4,12 @@ import android.view.View
 import br.com.shoppinglistapp.R
 import br.com.shoppinglistapp.data.model.ShoppingList
 import br.com.shoppinglistapp.utils.DateUtils
+import br.com.shoppinglistapp.utils.interfaces.ShoppingFragmentListClickHandler
 import com.google.android.material.textview.MaterialTextView
 
 class ShoppingListViewHolder(
-    itemView: View
+    itemView: View,
+    private val clickHandler: ShoppingFragmentListClickHandler
 ): BaseViewHolder(itemView) {
     private val title = itemView.findViewById<MaterialTextView>(R.id.shopping_list_title)
     private val description = itemView.findViewById<MaterialTextView>(R.id.shopping_list_description)
@@ -26,6 +28,11 @@ class ShoppingListViewHolder(
             authorName?.text = item.authorName
             date?.text = DateUtils.getFormatDateTime(item.createAt)
             progress?.text = context.getString(R.string.shopping_list_current_progress, item.currentItemsToComplete, item.totalItemsToComplete)
+
+            itemView.setOnClickListener {
+                clickHandler.onClickItemList(item.id)
+            }
         }
     }
+
 }

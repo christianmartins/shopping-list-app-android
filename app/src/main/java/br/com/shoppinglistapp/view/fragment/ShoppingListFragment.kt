@@ -7,19 +7,19 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import br.com.shoppinglistapp.R
 import br.com.shoppinglistapp.presenter.ShoppingListFragmentPresenter
+import br.com.shoppinglistapp.utils.GlobalUtils
+import br.com.shoppinglistapp.utils.interfaces.ShoppingFragmentListClickHandler
 import br.com.shoppinglistapp.view.adapter.ShoppingListAdapter
 import kotlinx.android.synthetic.main.shopping_list_layout.*
 
-class ShoppingListFragment: BaseCollectionFragment() {
+class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickHandler {
 
     private val presenter by lazy { ShoppingListFragmentPresenter() }
 
-    private val adapter by lazy { ShoppingListAdapter() }
-
-    private val shoppingLists by lazy {  presenter.getData() }
+    private val adapter by lazy { ShoppingListAdapter(this) }
 
     init {
-        adapter.setList(shoppingLists)
+        adapter.setList(GlobalUtils.shoppingLists )
     }
 
     override fun onCreateView(
@@ -43,10 +43,18 @@ class ShoppingListFragment: BaseCollectionFragment() {
 
     private fun onClickFloatingButton(){
         getFab()?.setOnClickListener {
-            findNavController().navigate(
-                ShoppingListFragmentDirections.actionShoppingListFragmentToItemShoppingListFragment()
-            )
+            navigateToItemsShoppingListFragment("")//TEMP
         }
+    }
+
+    private fun navigateToItemsShoppingListFragment(shoppingListId: String){
+        findNavController().navigate(
+            ShoppingListFragmentDirections.actionShoppingListFragmentToItemShoppingListFragment(shoppingListId)
+        )
+    }
+
+    override fun onClickItemList(shoppingListId: String) {
+        navigateToItemsShoppingListFragment(shoppingListId)
     }
 
 

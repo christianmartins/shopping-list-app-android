@@ -43,6 +43,11 @@ class ItemShoppingListAdapter(
         this.notifyDataSetChanged()
     }
 
+    fun addAll(items: List<ItemShoppingList>){
+        this.itemsShoppingList.addAll(items)
+        this.notifyDataSetChanged()
+    }
+
     fun remove(item: ItemShoppingList){
         this.itemsShoppingList.remove(item)
         this.notifyDataSetChanged()

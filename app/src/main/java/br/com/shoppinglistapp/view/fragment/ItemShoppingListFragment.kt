@@ -13,6 +13,7 @@ import android.widget.Toast
 import br.com.shoppinglistapp.R
 import br.com.shoppinglistapp.data.model.ItemShoppingList
 import br.com.shoppinglistapp.presenter.ItemShoppingListFragmentPresenter
+import br.com.shoppinglistapp.utils.GlobalUtils
 import br.com.shoppinglistapp.utils.interfaces.ItemShoppingListListeners
 import br.com.shoppinglistapp.view.adapter.ItemShoppingListAdapter
 import kotlinx.android.synthetic.main.item_shopping_list_layout.*
@@ -26,6 +27,10 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
 
     private val adapter by lazy {
         ItemShoppingListAdapter(this)
+    }
+
+    private val currentShoppingListId by lazy {
+        arguments?.getString("shoppingListId")?: ""
     }
 
     override fun onCreateView(
@@ -45,9 +50,16 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
 
     private fun initList(){
         item_shopping_list_recycler_view?.adapter = adapter
+        loadList()
+    }
+
+    private fun loadList() {
+        val filteredList = GlobalUtils.itemsShoppingList.filter { it.shoppingListId == currentShoppingListId }
+        adapter.addAll(filteredList)
     }
 
     override fun deleteItem(item: ItemShoppingList) {
+        GlobalUtils.itemsShoppingList.remove(item)
         adapter.remove(item)
     }
 
@@ -83,7 +95,10 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
                 if (resultCode == Activity.RESULT_OK && null != data) {
                     val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
                     result?.let {resultSpeechToTextList ->
-                        adapter.add(getItem(resultSpeechToTextList))
+                        val newItem = getItem(resultSpeechToTextList)
+                        GlobalUtils.itemsShoppingList.add(newItem)
+                        adapter.add(newItem)
+                        adapter.notifyItemRangeInserted(adapter.itemCount, 1)
                         Log.d("Texto encontrado:", getText(resultSpeechToTextList))
                     }
                 }
@@ -92,9 +107,10 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
     }
 
     private fun getItem(resultSpeechToTextList: List<String>): ItemShoppingList{
-        val item = presenter.getData(1)
-        item[0].description = resultSpeechToTextList[0]
-        return item[0]
+        return presenter.getData(1).copy(
+            description = resultSpeechToTextList[0],
+            shoppingListId = currentShoppingListId
+        )
     }
 
     private fun getText(resultSpeechToTextList: List<String>): String{
@@ -103,10 +119,6 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
             text += "$it \n"
         }
         return text
-    }
-
-    private fun showToast(text: String){
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 
     companion object {

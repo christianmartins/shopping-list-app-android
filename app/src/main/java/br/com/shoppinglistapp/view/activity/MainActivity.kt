@@ -8,16 +8,28 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import br.com.shoppinglistapp.R
 import br.com.shoppinglistapp.extensions.setupBottomNavigationBar
+import br.com.shoppinglistapp.presenter.MainActivityPresenter
+import br.com.shoppinglistapp.utils.GlobalUtils
 import br.com.shoppinglistapp.view.fragment.ShoppingListFragmentDirections
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-
 
 class MainActivity : BaseActivity(){
 
     private var currentNavController: LiveData<NavController>? = null
 
+    private val presenter by lazy {
+        MainActivityPresenter()
+    }
+
     val fab by lazy {
         findViewById<FloatingActionButton?>(R.id.fab)
+    }
+
+    init {
+        with(GlobalUtils){
+            shoppingLists.addAll(presenter.getShoppingListData())
+            itemsShoppingList.addAll(presenter.getItemsShoppingListData())
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,10 +54,11 @@ class MainActivity : BaseActivity(){
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.home_navigation -> {
-                findNavController(R.id.nav_host_container).navigate(ShoppingListFragmentDirections.actionShoppingListFragmentToItemShoppingListFragment())
+                findNavController(R.id.home_navigation).navigate(ShoppingListFragmentDirections.actionGlobalShoppingListFragment())
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 }
+

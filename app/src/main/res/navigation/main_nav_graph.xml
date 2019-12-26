@@ -22,8 +22,6 @@
         android:label="ItemShoppingListFragment" >
         <argument
             android:name="shoppingListId"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
-    </fragment>
+            app:argType="string" />
+    </fragment><action android:id="@+id/action_global_shoppingListFragment" app:destination="@id/shoppingListFragment"/>
 </navigation>
