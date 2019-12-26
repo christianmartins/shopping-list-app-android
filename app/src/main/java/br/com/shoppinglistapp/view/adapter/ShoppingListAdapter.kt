@@ -34,5 +34,11 @@ class ShoppingListAdapter(private val clickHandler: ShoppingFragmentListClickHan
 
     fun setList(list: List<ShoppingList>){
         this.shoppingLists.addAll(list)
+        notifyDataSetChanged()
+    }
+
+    fun add(shoppingList: ShoppingList){
+        this.shoppingLists.add(shoppingList)
+        this.notifyItemInserted(this.shoppingLists.size)
     }
 }

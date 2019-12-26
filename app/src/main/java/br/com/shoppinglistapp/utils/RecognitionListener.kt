@@ -5,6 +5,8 @@ import android.speech.RecognitionListener
 import android.speech.SpeechRecognizer
 import android.widget.Toast
 import br.com.shoppinglistapp.App
+import br.com.shoppinglistapp.utils.event.RecognitionOnResultEvent
+import org.greenrobot.eventbus.EventBus
 
 
 class RecognitionListener: RecognitionListener {
@@ -53,6 +55,7 @@ class RecognitionListener: RecognitionListener {
         results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.let {data ->
             if(data.size > 0){
                 val bestResult = data[0].toString().trim()
+                EventBus.getDefault().post(RecognitionOnResultEvent(bestResult))
                 println("$tag onResults $bestResult")
             }
         }

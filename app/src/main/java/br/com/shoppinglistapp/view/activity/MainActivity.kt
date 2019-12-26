@@ -17,19 +17,8 @@ class MainActivity : BaseActivity(){
 
     private var currentNavController: LiveData<NavController>? = null
 
-    private val presenter by lazy {
-        MainActivityPresenter()
-    }
-
     val fab by lazy {
         findViewById<FloatingActionButton?>(R.id.fab)
-    }
-
-    init {
-        with(GlobalUtils){
-            shoppingLists.addAll(presenter.getShoppingListData())
-            itemsShoppingList.addAll(presenter.getItemsShoppingListData())
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
