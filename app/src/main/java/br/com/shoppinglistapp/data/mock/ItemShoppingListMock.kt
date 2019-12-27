@@ -9,15 +9,15 @@ object ItemShoppingListMock {
     fun getItemShoppingListData(numberOfItems: Int): List<ItemShoppingList>{
         val mockList = ArrayList<ItemShoppingList>()
         (0 until numberOfItems).forEach { i ->
-            val date = DateUtils.getDateTime()
+            val dateTime = DateUtils.getDateTime()
             ItemShoppingList(
                 id = DateUtils.getTimeStamp().toString(),
                 description = "Description $i",
                 shoppingListId = "1",
                 selected = false,
                 deleted = false,
-                createAt = date,
-                updateAt = date
+                createAt = dateTime,
+                updateAt = dateTime
             ).apply {
                 mockList.add(this)
             }

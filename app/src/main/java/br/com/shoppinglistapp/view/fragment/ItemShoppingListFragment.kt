@@ -57,6 +57,7 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
     override fun deleteItem(item: ItemShoppingList) {
         GlobalUtils.itemsShoppingList.remove(item)
         adapter.remove(item)
+        updateTotalItemsToCompleteShoppingList()
     }
 
     private fun onClickAddItem(){
@@ -65,17 +66,25 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
         }
     }
 
+    private fun updateTotalItemsToCompleteShoppingList(){
+        GlobalUtils.shoppingLists.find { it.id == currentShoppingListId }?.let {
+            it.totalItemsToComplete = adapter.itemCount
+        }
+    }
+
     override fun onMessageEvent(event: MessageEvent) {
         super.onMessageEvent(event)
         when(event){
             is RecognitionOnResultEvent -> {
                 if(GlobalUtils.fragmentAlive == this.javaClass.name){
+
                     val itemShoppingList = presenter.getData().copy(
                         description = event.bestResult,
                         shoppingListId = currentShoppingListId
                     )
                     GlobalUtils.itemsShoppingList.add(itemShoppingList)
                     adapter.add(itemShoppingList)
+                    updateTotalItemsToCompleteShoppingList()
                 }
             }
         }
