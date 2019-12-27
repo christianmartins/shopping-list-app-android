@@ -34,13 +34,10 @@ class ItemShoppingListAdapter(
         holder.setItem(item)
     }
 
-    fun setList(list: List<ItemShoppingList>){
-        this.itemsShoppingList.addAll(list)
-    }
 
     fun add(item: ItemShoppingList){
         this.itemsShoppingList.add(item)
-        this.notifyDataSetChanged()
+        this.notifyItemInserted(this.itemsShoppingList.size)
     }
 
     fun addAll(items: List<ItemShoppingList>){
@@ -49,8 +46,9 @@ class ItemShoppingListAdapter(
     }
 
     fun remove(item: ItemShoppingList){
-        this.itemsShoppingList.remove(item)
-        this.notifyDataSetChanged()
+        val position = this.itemsShoppingList.indexOf(item)
+        this.itemsShoppingList.removeAt(position)
+        this.notifyItemRemoved(position)
     }
 
 }

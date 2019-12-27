@@ -1,6 +1,7 @@
 package br.com.shoppinglistapp.view.fragment
 
 import androidx.fragment.app.Fragment
+import br.com.shoppinglistapp.utils.GlobalUtils
 import br.com.shoppinglistapp.utils.event.MessageEvent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -12,10 +13,10 @@ open class BaseFragment: Fragment(){
     @Subscribe(threadMode = ThreadMode.MAIN)
     open fun onMessageEvent(event: MessageEvent) {}
 
-
     override fun onStart() {
         super.onStart()
         EventBus.getDefault().register(this)
+        GlobalUtils.fragmentAlive = this.javaClass.name
     }
 
     override fun onStop() {

@@ -16,5 +16,7 @@
 
     <!--Bottom navigation-->
     <string name="home_navigation">Home</string>
+    <string name="text_to_speech_title_shopping_list">Diga o titulo da lista de compras</string>
+    <string name="created_by">Criado por: %s</string>
 
 </resources>

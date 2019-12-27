@@ -9,15 +9,15 @@ object ShoppingListMock {
         val mockList = ArrayList<ShoppingList>()
         (0 until numberOfItems).forEach { i ->
             ShoppingList(
-                id = i.toString(),
+                id = "anonimo1${DateUtils.getTimeStamp()}",
                 title = "Title $i",
                 description = "Description $i",
-                userId = "UserId $i",
+                userId = "anonimo1",
                 createAt = DateUtils.getDateTime(),
                 updateAt = DateUtils.getDateTime(),
-                authorName = "A uthorName $i",
-                currentItemsToComplete = i,
-                totalItemsToComplete = numberOfItems,
+                authorName = "Anônimo",
+                currentItemsToComplete = 0,
+                totalItemsToComplete = 0,
                 deleted = false
             ).apply {
                 mockList.add(this)

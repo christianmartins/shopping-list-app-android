@@ -25,7 +25,7 @@ class ShoppingListViewHolder(
         if(item is ShoppingList){
             title?.text = item.title
             description?.text = item.description
-            authorName?.text = item.authorName
+            authorName?.text = context.getString(R.string.created_by, item.authorName)
             date?.text = DateUtils.getFormatDateTime(item.createAt)
             progress?.text = context.getString(R.string.shopping_list_current_progress, item.currentItemsToComplete, item.totalItemsToComplete)
 
