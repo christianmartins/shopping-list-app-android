@@ -3,6 +3,7 @@ package br.com.shoppinglistapp.utils
 import br.com.shoppinglistapp.App
 import br.com.shoppinglistapp.data.model.ItemShoppingList
 import br.com.shoppinglistapp.data.model.ShoppingList
+import br.com.shoppinglistapp.utils.enum.ActionType
 
 object GlobalUtils {
 
@@ -16,4 +17,7 @@ object GlobalUtils {
     val itemsShoppingList = ArrayList<ItemShoppingList>()
     var currentUser = ""
     var fragmentAlive = ""
+
+    var currentActionType = ActionType.NONE
+    var currentShoppingListId = ""
 }

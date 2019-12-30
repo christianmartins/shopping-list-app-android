@@ -6,16 +6,20 @@ import android.speech.tts.UtteranceProgressListener
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import androidx.navigation.fragment.findNavController
 import br.com.shoppinglistapp.R
+import br.com.shoppinglistapp.extensions.setEmptyList
 import br.com.shoppinglistapp.presenter.ShoppingListFragmentPresenter
 import br.com.shoppinglistapp.utils.DateUtils
 import br.com.shoppinglistapp.utils.GlobalUtils
 import br.com.shoppinglistapp.utils.RecognitionUtils
+import br.com.shoppinglistapp.utils.enum.ActionType
 import br.com.shoppinglistapp.utils.event.MessageEvent
 import br.com.shoppinglistapp.utils.event.RecognitionOnResultEvent
 import br.com.shoppinglistapp.utils.interfaces.ShoppingFragmentListClickHandler
 import br.com.shoppinglistapp.view.adapter.ShoppingListAdapter
+import kotlinx.android.synthetic.main._empty_list_layout.*
 import kotlinx.android.synthetic.main.shopping_list_layout.*
 import java.util.*
 
@@ -53,18 +57,39 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
         return inflater.inflate(R.layout.shopping_list_layout, container, false)
     }
 
+    override fun onResume() {
+        super.onResume()
+        GlobalUtils.currentActionType = ActionType.NONE
+        GlobalUtils.currentShoppingListId = ""
+    }
+
     override fun onMessageEvent(event: MessageEvent) {
         super.onMessageEvent(event)
         when(event){
             is RecognitionOnResultEvent -> {
-                if(GlobalUtils.fragmentAlive == this.javaClass.name){
-                    val shoppingList = presenter.getData().copy(
-                        title = event.bestResult
-                    )
+                if(GlobalUtils.fragmentAlive == this@ShoppingListFragment.javaClass.name){
+                    with(event){
+                        if(GlobalUtils.currentActionType == ActionType.REDIRECT_TO_ITEM_SHOPPING_LIST){
+                            GlobalUtils.currentActionType = ActionType.NONE
+                            GlobalUtils.currentShoppingListId = ""
 
-                    GlobalUtils.shoppingLists.add(shoppingList)
-                    adapter.add(shoppingList)
-                    navigateToItemsShoppingListFragment(shoppingList.id)
+                            if(bestResult.equals("SIM", true)){
+                                navigateToItemsShoppingListFragment(GlobalUtils.currentShoppingListId)
+                            }
+                        }
+                        else{
+                            val shoppingList = presenter.getData().copy(
+                                title = bestResult
+                            )
+
+                            GlobalUtils.shoppingLists.add(shoppingList)
+                            adapter.add(shoppingList)
+                            empty_list.setEmptyList(adapter.itemCount)
+                            speak(R.string.shopping_list_redirect_to_item_shopping_list)
+                            GlobalUtils.currentActionType = ActionType.REDIRECT_TO_ITEM_SHOPPING_LIST
+                            GlobalUtils.currentShoppingListId = shoppingList.id
+                        }
+                    }
                 }
             }
         }
@@ -82,6 +107,8 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
         onClickFloatingButton()
+        empty_list.text = getString(R.string.shopping_list_empty_list)
+        empty_list.setEmptyList(adapter.itemCount)
     }
 
     private fun initAdapter(){
@@ -90,14 +117,18 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
 
     private fun onClickFloatingButton(){
         getFab()?.setOnClickListener {
-            activity?.runOnUiThread {
-                try{
-                    textToSpeech.speak(getString(R.string.text_to_speech_title_shopping_list), TextToSpeech.QUEUE_FLUSH, null, DateUtils.getTimeStamp().toString())
-                    textToSpeech.setOnUtteranceProgressListener(TextToSpeechCustom())
-                    textToSpeech.Engine()
-                }catch (e: Exception){
-                    e.printStackTrace()
-                }
+            speak(R.string.text_to_speech_title_shopping_list)
+        }
+    }
+
+    private fun speak(@StringRes stringRes: Int, params: Bundle? = null){
+        activity?.runOnUiThread {
+            try{
+                textToSpeech.speak(getString(stringRes), TextToSpeech.QUEUE_FLUSH, params, DateUtils.getTimeStamp().toString())
+                textToSpeech.setOnUtteranceProgressListener(TextToSpeechCustom())
+                textToSpeech.Engine()
+            }catch (e: Exception){
+                e.printStackTrace()
             }
         }
     }
@@ -126,6 +157,5 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
         override fun onStart(p0: String?) {
             print("${this.javaClass.name} - TextToSpeechCustom - onStart:")
         }
-
     }
 }

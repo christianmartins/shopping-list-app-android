@@ -12,6 +12,6 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         />
 
-    <include layout="@layout/_empty_list_layout"/>
+    <include layout="@layout/_empty_list_layout" />
 
 </FrameLayout>

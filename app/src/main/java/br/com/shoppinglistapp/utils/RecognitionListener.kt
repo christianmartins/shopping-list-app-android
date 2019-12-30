@@ -9,7 +9,7 @@ import br.com.shoppinglistapp.utils.event.RecognitionOnResultEvent
 import org.greenrobot.eventbus.EventBus
 
 
-class RecognitionListener: RecognitionListener {
+class RecognitionListener(private val params: ParamsCustom? = null): RecognitionListener {
 
     private val tag = this.javaClass.name
 
@@ -55,7 +55,7 @@ class RecognitionListener: RecognitionListener {
         results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.let {data ->
             if(data.size > 0){
                 val bestResult = data[0].toString().trim()
-                EventBus.getDefault().post(RecognitionOnResultEvent(bestResult))
+                EventBus.getDefault().post(RecognitionOnResultEvent(bestResult, params))
                 println("$tag onResults $bestResult")
             }
         }
