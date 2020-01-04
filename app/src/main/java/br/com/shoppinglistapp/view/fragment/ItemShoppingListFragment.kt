@@ -1,6 +1,5 @@
 package br.com.shoppinglistapp.view.fragment
 
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +9,7 @@ import br.com.shoppinglistapp.data.model.ItemShoppingList
 import br.com.shoppinglistapp.extensions.setEmptyList
 import br.com.shoppinglistapp.presenter.ItemShoppingListFragmentPresenter
 import br.com.shoppinglistapp.utils.GlobalUtils
-import br.com.shoppinglistapp.utils.RecognitionUtils
-import br.com.shoppinglistapp.utils.event.MessageEvent
+import br.com.shoppinglistapp.utils.event.RecognitionOnErrorEvent
 import br.com.shoppinglistapp.utils.event.RecognitionOnResultEvent
 import br.com.shoppinglistapp.utils.interfaces.ItemShoppingListListeners
 import br.com.shoppinglistapp.view.adapter.ItemShoppingListAdapter
@@ -43,11 +41,10 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initList()
-        onClickAddItem()
+        initAdapter()
     }
 
-    private fun initList(){
+    override fun initAdapter(){
         item_shopping_list_recycler_view?.adapter = adapter
         loadList()
     }
@@ -65,10 +62,8 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
         updateTotalItemsToCompleteShoppingList()
     }
 
-    private fun onClickAddItem(){
-        getFab()?.setOnClickListener {
-            RecognitionUtils().startToSpeech()
-        }
+    override fun onClickFloatingButton() {
+        recognitionUtils.startToSpeech()
     }
 
     private fun updateTotalItemsToCompleteShoppingList(){
@@ -78,23 +73,20 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
         empty_list.setEmptyList(adapter.itemCount)
     }
 
-    override fun onMessageEvent(event: MessageEvent) {
-        super.onMessageEvent(event)
-        when(event){
-            is RecognitionOnResultEvent -> {
-                if(GlobalUtils.fragmentAlive == this.javaClass.name){
-                    val results = event.bestResult.split(" e ", ignoreCase = true)
-                    results.forEach {
-                        val itemShoppingList = presenter.getData().copy(
-                            description = it,
-                            shoppingListId = currentShoppingListId
-                        )
-                        GlobalUtils.itemsShoppingList.add(itemShoppingList)
-                        adapter.add(itemShoppingList)
-                    }
-                    updateTotalItemsToCompleteShoppingList()
-                }
-            }
+    override fun onRecognitionOnResultEvent(event: RecognitionOnResultEvent) {
+        val results = event.bestResult.split(" e ", ignoreCase = true)
+        results.forEach {
+            val itemShoppingList = presenter.getData().copy(
+                description = it,
+                shoppingListId = currentShoppingListId
+            )
+            GlobalUtils.itemsShoppingList.add(itemShoppingList)
+            adapter.add(itemShoppingList)
         }
+        updateTotalItemsToCompleteShoppingList()
+    }
+
+    override fun onRecognitionOnErrorEvent(event: RecognitionOnErrorEvent) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

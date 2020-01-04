@@ -3,9 +3,12 @@ package br.com.shoppinglistapp.view.fragment
 import androidx.fragment.app.Fragment
 import br.com.shoppinglistapp.utils.GlobalUtils
 import br.com.shoppinglistapp.utils.event.MessageEvent
+import br.com.shoppinglistapp.view.activity.MainActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.lang.ref.WeakReference
 
 
 open class BaseFragment: Fragment(){
@@ -22,5 +25,13 @@ open class BaseFragment: Fragment(){
     override fun onStop() {
         EventBus.getDefault().unregister(this)
         super.onStop()
+    }
+
+    private fun getWeakMainActivity(): WeakReference<MainActivity?> {
+        return WeakReference(activity as? MainActivity)
+    }
+
+    protected fun getFab(): FloatingActionButton?{
+        return getWeakMainActivity().get()?.fab
     }
 }

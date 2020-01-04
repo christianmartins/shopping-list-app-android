@@ -1,16 +1,23 @@
 package br.com.shoppinglistapp.view.fragment
 
-import br.com.shoppinglistapp.view.activity.MainActivity
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.lang.ref.WeakReference
+import android.os.Bundle
+import android.view.View
 
-abstract class BaseCollectionFragment: BaseFragment() {
+abstract class BaseCollectionFragment: BaseRecognitionFragment() {
 
-    private fun getWeakMainActivity(): WeakReference<MainActivity?> {
-        return WeakReference(activity as? MainActivity)
+    abstract fun initAdapter()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        myFabOnClickListener()
     }
 
-    protected fun getFab(): FloatingActionButton?{
-        return getWeakMainActivity().get()?.fab
+    private fun myFabOnClickListener(){
+        getFab()?.setOnClickListener {
+            onClickFloatingButton()
+        }
     }
+
+    abstract fun onClickFloatingButton ()
+
 }

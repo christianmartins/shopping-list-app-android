@@ -5,6 +5,7 @@ import android.speech.RecognitionListener
 import android.speech.SpeechRecognizer
 import android.widget.Toast
 import br.com.shoppinglistapp.App
+import br.com.shoppinglistapp.R
 import br.com.shoppinglistapp.utils.event.RecognitionOnResultEvent
 import org.greenrobot.eventbus.EventBus
 
@@ -33,21 +34,20 @@ class RecognitionListener(private val params: ParamsCustom? = null): Recognition
 
     override fun onError(error: Int) {
         App.context?.let {
-            Toast.makeText(it,
+            EventBus.getDefault().post(
                 when (error) {
                     SpeechRecognizer.ERROR_AUDIO -> "Audio recording error"
                     SpeechRecognizer.ERROR_CLIENT -> "Client side error"
                     SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "Insufficient permissions"
                     SpeechRecognizer.ERROR_NETWORK -> "Network error"
                     SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> "Network timeout"
-                    SpeechRecognizer.ERROR_NO_MATCH -> "No match"
+                    SpeechRecognizer.ERROR_NO_MATCH -> it.getString(R.string.speak_not_understand)//"No match"
                     SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "RecognitionService busy"
                     SpeechRecognizer.ERROR_SERVER -> "error from server"
                     SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "No speech input"
-                    else -> "Didn't understand, please try again."
+                    else -> it.getString(R.string.speak_not_understand)//"Didn't understand, please try again."
                 }
-                , Toast.LENGTH_SHORT
-            ).show()
+            )
         }
     }
 
