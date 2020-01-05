@@ -63,7 +63,7 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
     }
 
     override fun onClickFloatingButton() {
-        recognitionUtils.startToSpeech()
+        recognitionUtils.startRecognition()
     }
 
     private fun updateTotalItemsToCompleteShoppingList(){
@@ -87,6 +87,6 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
     }
 
     override fun onRecognitionOnErrorEvent(event: RecognitionOnErrorEvent) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        speak(event.errorMessageStringRes)
     }
 }

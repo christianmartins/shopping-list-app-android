@@ -1,8 +1,8 @@
 package br.com.shoppinglistapp.utils.event
 
-import br.com.shoppinglistapp.utils.ParamsCustom
+import br.com.shoppinglistapp.utils.RecognitionParams
 
 class RecognitionOnResultEvent(
     val bestResult: String,
-    val params: ParamsCustom?
+    val recognitionParams: RecognitionParams?
 ): MessageEvent()

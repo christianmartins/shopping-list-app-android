@@ -3,18 +3,15 @@ package br.com.shoppinglistapp.utils
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.os.Handler
-import android.os.Looper
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
-import android.widget.Toast
 import br.com.shoppinglistapp.App
 import br.com.shoppinglistapp.R
+import br.com.shoppinglistapp.utils.speak.SpeakUtils
 import java.util.*
 
 class RecognitionUtils {
     private var speechRecognizer: SpeechRecognizer? = null
-    private val recognitionListenerUtils = RecognitionListener()
 
     init {
         initSpeechRecognizer()
@@ -32,7 +29,6 @@ class RecognitionUtils {
     private fun initSpeechRecognizer(){
         if(speechRecognizer == null){
             speechRecognizer = getInstanceSpeechRecognizer()
-            speechRecognizer?.setRecognitionListener(recognitionListenerUtils)
         }
     }
 
@@ -60,15 +56,14 @@ class RecognitionUtils {
      }
 
 
-    fun startToSpeech(){
+    fun startRecognition(recognitionParams: RecognitionParams? = null){
         App.context?.applicationContext?.let {
             if (SpeechRecognizer.isRecognitionAvailable(it)) {
                 initSpeechRecognizer()
+                speechRecognizer?.setRecognitionListener(RecognitionListener(recognitionParams))
                 speechRecognizer?.startListening(getSpeechIntent(it))
             } else {
-                Handler(Looper.getMainLooper()).post{
-                    Toast.makeText(it, it.getString(R.string.could_not_start_speech_recognizer), Toast.LENGTH_SHORT).show()
-                }
+                SpeakUtils.dispatchOnErrorEvent(R.string.speech_error_could_not_start_speech_recognizer)
             }
         }
     }

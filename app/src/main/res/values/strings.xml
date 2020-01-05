@@ -24,8 +24,16 @@
     <!--End-->
 
     <!-- Text to speech commons -->
-    <string name="speech_not_supported">Reconhecimento de voz não suportado!</string>
     <string name="speech_prompt">Test reconhecimento de voz!</string>
+    <!-- On error-->
+        <string name="speech_not_supported">Reconhecimento de voz não suportado!</string>
+        <string name="speech_error_audio">Audio recording error</string>
+        <string name="speech_error_client">Client side error</string>
+        <string name="speech_error_insufficient_permissions">Insufficient permissions</string>
+        <string name="speech_error_unknown">Aconteceu um erro desconhecido!</string>
+        <string name="speech_error_recognition_service_busy">O reconhecedor de voz no momento está ocupado!</string>
+        <string name="speech_error_network_and_client_and_timout_and_server">Falha com a conexão da internet!</string>
+        <string name="speech_error_could_not_start_speech_recognizer">Não foi possível iniciar o reconhecedor de voz</string>
     <!--End-->
 
     <!--Speak commons-->
@@ -37,6 +45,7 @@
     <!--End-->
 
     <string name="element_arg">%s</string>
-    <string name="could_not_start_speech_recognizer">Não foi possível iniciar o reconhecedor de voz</string>
+
+
 
 </resources>

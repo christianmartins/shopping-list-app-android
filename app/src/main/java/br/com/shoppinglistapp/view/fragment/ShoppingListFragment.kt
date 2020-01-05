@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import br.com.shoppinglistapp.R
+import br.com.shoppinglistapp.data.model.ShoppingList
 import br.com.shoppinglistapp.extensions.setEmptyList
 import br.com.shoppinglistapp.presenter.ShoppingListFragmentPresenter
 import br.com.shoppinglistapp.utils.GlobalUtils
+import br.com.shoppinglistapp.utils.RecognitionParams
 import br.com.shoppinglistapp.utils.enum.ActionType
 import br.com.shoppinglistapp.utils.event.RecognitionOnErrorEvent
 import br.com.shoppinglistapp.utils.event.RecognitionOnResultEvent
@@ -56,36 +58,45 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
         GlobalUtils.currentShoppingListId = ""
     }
 
+    override fun onRecognitionOnErrorEvent(event: RecognitionOnErrorEvent) {
+        speak(event.errorMessageStringRes)
+    }
+
     override fun onRecognitionOnResultEvent(event: RecognitionOnResultEvent) {
         with(event) {
-            if (GlobalUtils.currentActionType == ActionType.REDIRECT_TO_ITEM_SHOPPING_LIST) {
-                GlobalUtils.currentActionType = ActionType.NONE
-                GlobalUtils.currentShoppingListId = ""
+            if (recognitionParams?.actionsType == ActionType.REDIRECT_TO_ITEM_SHOPPING_LIST) {
                 if (bestResult.equals(getString(R.string.speak_confirm), true)) {
                     navigateToItemsShoppingListFragment(GlobalUtils.currentShoppingListId)
                 }
                 speak(R.string.speak_ok)
             } else {
-                hasStartToSpeech = true
                 val shoppingList = presenter.getData().copy(title = bestResult)
+                addItemInAdapter(shoppingList)
 
-                GlobalUtils.shoppingLists.add(shoppingList)
-                adapter.add(shoppingList)
-                empty_list.setEmptyList(adapter.itemCount)
-                speak(R.string.shopping_list_redirect_to_item_shopping_list)
-                GlobalUtils.currentActionType = ActionType.REDIRECT_TO_ITEM_SHOPPING_LIST
-                GlobalUtils.currentShoppingListId = shoppingList.id
+                val params = RecognitionParams(ActionType.REDIRECT_TO_ITEM_SHOPPING_LIST, shoppingList.id)
+                speak(
+                    R.string.shopping_list_redirect_to_item_shopping_list,
+                    onSpeakDone = {
+                        startRecognition(params)
+                    }
+                )
             }
         }
     }
 
-    override fun onRecognitionOnErrorEvent(event: RecognitionOnErrorEvent) {
-        speak(getString(R.string.element_arg, event.errorMessage))
+    private fun addItemInAdapter(shoppingList: ShoppingList){
+        GlobalUtils.shoppingLists.add(shoppingList)
+        adapter.add(shoppingList)
+        empty_list.setEmptyList(adapter.itemCount)
     }
 
     override fun onClickFloatingButton(){
-        hasStartToSpeech = true
-        speak(R.string.text_to_speech_title_shopping_list)
+        speak(
+            R.string.text_to_speech_title_shopping_list,
+            onSpeakDone = {
+                startRecognition()
+            }
+        )
     }
 
     private fun navigateToItemsShoppingListFragment(shoppingListId: String){

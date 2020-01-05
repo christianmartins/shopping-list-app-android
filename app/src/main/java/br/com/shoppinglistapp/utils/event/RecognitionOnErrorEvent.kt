@@ -1,5 +1,8 @@
 package br.com.shoppinglistapp.utils.event
 
+import androidx.annotation.StringRes
+
 class RecognitionOnErrorEvent(
-    val errorMessage: String
+    @StringRes
+    val errorMessageStringRes: Int
 ): MessageEvent()

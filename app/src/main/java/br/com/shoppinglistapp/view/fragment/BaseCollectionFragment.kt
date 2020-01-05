@@ -19,5 +19,4 @@ abstract class BaseCollectionFragment: BaseRecognitionFragment() {
     }
 
     abstract fun onClickFloatingButton ()
-
 }
