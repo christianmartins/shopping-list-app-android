@@ -3,7 +3,6 @@ package br.com.shoppinglistapp.utils
 import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.SpeechRecognizer
-import android.widget.Toast
 import br.com.shoppinglistapp.App
 import br.com.shoppinglistapp.R
 import br.com.shoppinglistapp.utils.event.RecognitionOnResultEvent
@@ -41,7 +40,7 @@ class RecognitionListener(private val params: ParamsCustom? = null): Recognition
                     SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "Insufficient permissions"
                     SpeechRecognizer.ERROR_NETWORK -> "Network error"
                     SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> "Network timeout"
-                    SpeechRecognizer.ERROR_NO_MATCH -> it.getString(R.string.speak_not_understand)//"No match"
+                    SpeechRecognizer.ERROR_NO_MATCH -> it.getString(R.string.speak_not_understand) //"No match"
                     SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "RecognitionService busy"
                     SpeechRecognizer.ERROR_SERVER -> "error from server"
                     SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "No speech input"

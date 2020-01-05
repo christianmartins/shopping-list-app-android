@@ -3,26 +3,19 @@ package br.com.shoppinglistapp.view.fragment
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.StringRes
-import br.com.shoppinglistapp.R
-import br.com.shoppinglistapp.extensions.setEmptyList
 import br.com.shoppinglistapp.utils.DateUtils
 import br.com.shoppinglistapp.utils.GlobalUtils
 import br.com.shoppinglistapp.utils.RecognitionUtils
-import br.com.shoppinglistapp.utils.enum.ActionType
 import br.com.shoppinglistapp.utils.event.MessageEvent
 import br.com.shoppinglistapp.utils.event.RecognitionOnErrorEvent
 import br.com.shoppinglistapp.utils.event.RecognitionOnResultEvent
-import kotlinx.android.synthetic.main._empty_list_layout.*
 import java.util.*
 
 abstract class BaseRecognitionFragment: BaseFragment(), TextToSpeech.OnInitListener {
 
     protected val recognitionUtils = RecognitionUtils()
-    protected lateinit var textToSpeech: TextToSpeech
+    private lateinit var textToSpeech: TextToSpeech
     protected var hasStartToSpeech = false
 
 
@@ -58,16 +51,8 @@ abstract class BaseRecognitionFragment: BaseFragment(), TextToSpeech.OnInitListe
         }
     }
 
-    override fun onInit(p0: Int) {
-        if(p0 == TextToSpeech.SUCCESS){
-            print("${this.javaClass.name}- onInit: success")
-        }else{
-            print("${this.javaClass.name}- onInit: failed")
-        }
-    }
-
     protected fun speak(string: String, params: Bundle? = null){
-        speak((string as CharSequence) , params)
+        speak((string as CharSequence), params)
     }
 
     protected fun speak(@StringRes stringRes: Int, params: Bundle? = null){
@@ -83,6 +68,14 @@ abstract class BaseRecognitionFragment: BaseFragment(), TextToSpeech.OnInitListe
             }catch (e: Exception){
                 e.printStackTrace()
             }
+        }
+    }
+
+    override fun onInit(p0: Int) {
+        if(p0 == TextToSpeech.SUCCESS){
+            print("${this.javaClass.name}- onInit: success")
+        }else{
+            print("${this.javaClass.name}- onInit: failed")
         }
     }
 

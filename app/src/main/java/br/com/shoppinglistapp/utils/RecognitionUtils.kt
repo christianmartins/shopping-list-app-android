@@ -17,8 +17,7 @@ class RecognitionUtils {
     private val recognitionListenerUtils = RecognitionListener()
 
     init {
-        speechRecognizer = getInstanceSpeechRecognizer()
-        speechRecognizer?.setRecognitionListener(recognitionListenerUtils)
+        initSpeechRecognizer()
     }
 
     private fun getInstanceSpeechRecognizer(): SpeechRecognizer?{
@@ -27,6 +26,13 @@ class RecognitionUtils {
                 it,
                 ComponentName.unflattenFromString(GlobalUtils.googleRecognitionServiceName)
             )
+        }
+    }
+
+    private fun initSpeechRecognizer(){
+        if(speechRecognizer == null){
+            speechRecognizer = getInstanceSpeechRecognizer()
+            speechRecognizer?.setRecognitionListener(recognitionListenerUtils)
         }
     }
 
@@ -57,10 +63,7 @@ class RecognitionUtils {
     fun startToSpeech(){
         App.context?.applicationContext?.let {
             if (SpeechRecognizer.isRecognitionAvailable(it)) {
-                if(speechRecognizer == null){
-                    speechRecognizer = getInstanceSpeechRecognizer()
-                    speechRecognizer?.setRecognitionListener(recognitionListenerUtils)
-                }
+                initSpeechRecognizer()
                 speechRecognizer?.startListening(getSpeechIntent(it))
             } else {
                 Handler(Looper.getMainLooper()).post{
