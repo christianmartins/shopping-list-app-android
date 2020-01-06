@@ -51,6 +51,8 @@
     <string name="dialog_recognition_image_content_description">Imagem do microfone</string>
     <string name="explain_separator_option">Obs: Caso deseje separar os itens fale (e) Ex: pão e leite</string>
     <string name="dialog_recognition_description">Após o bip diga o nome do seu item para adicionar na lista de compras!</string>
+    <string name="not_added_in_cart">Não adicionados no carrinho</string>
+    <string name="added_in_cart">Adicionados no carrinho</string>
 
 
 </resources>

@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import br.com.shoppinglistapp.R
 import br.com.shoppinglistapp.data.model.ShoppingList
 import br.com.shoppinglistapp.extensions.setEmptyList
+import br.com.shoppinglistapp.extensions.yesAnswer
 import br.com.shoppinglistapp.presenter.ShoppingListFragmentPresenter
 import br.com.shoppinglistapp.utils.GlobalUtils
 import br.com.shoppinglistapp.utils.RecognitionParams
@@ -27,6 +28,7 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
     private val adapter by lazy { ShoppingListAdapter(this) }
 
     init {
+        GlobalUtils.shoppingLists.addAll(presenter.getDataList())
         adapter.addAll(GlobalUtils.shoppingLists)
     }
 
@@ -51,12 +53,6 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
         shopping_list_recycler_view?.adapter = adapter
     }
 
-    override fun onResume() {
-        super.onResume()
-        GlobalUtils.currentActionType = ActionType.NONE
-        GlobalUtils.currentShoppingListId = ""
-    }
-
     override fun onRecognitionOnErrorEvent(event: RecognitionOnErrorEvent) {
         speak(event.errorMessageStringRes)
     }
@@ -64,8 +60,8 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
     override fun onRecognitionOnResultEvent(event: RecognitionOnResultEvent) {
         with(event) {
             if (recognitionParams?.actionsType == ActionType.REDIRECT_TO_ITEM_SHOPPING_LIST) {
-                if (bestResult.equals(getString(R.string.speak_confirm), true)) {
-                    navigateToItemsShoppingListFragment(GlobalUtils.currentShoppingListId)
+                if (bestResult.yesAnswer()) {
+                    navigateToItemsShoppingListFragment(recognitionParams.currentShoppingListId)
                 }
                 speakOk()
             } else {

@@ -52,18 +52,25 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
 
     override fun initAdapter(){
         item_shopping_list_recycler_view?.adapter = adapter
+        initEmptyList()
         loadList()
     }
 
     private fun loadList() {
-        val filteredList = GlobalUtils.itemsShoppingList.filter { it.shoppingListId == currentShoppingListId }.sortedBy { it.selected }
-        adapter.addAll(filteredList)
+        adapter.addAll(presenter.getItems(currentShoppingListId))
+        thisListIsEmpty()
+    }
+
+    private fun initEmptyList(){
         empty_list.text = getString(R.string.item_shopping_list_empty_list)
+    }
+
+    private fun thisListIsEmpty(){
         empty_list.setEmptyList(adapter.itemCount)
     }
 
     override fun deleteItem(item: ItemShoppingList) {
-        GlobalUtils.itemsShoppingList.remove(item)
+        presenter.deleteItem(item)
         adapter.remove(item)
         updateTotalItemsToCompleteShoppingList()
     }
@@ -79,19 +86,16 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
     }
 
     private fun updateTotalItemsToCompleteShoppingList(){
-        GlobalUtils.shoppingLists.find { it.id == currentShoppingListId }?.let {
-            it.totalItemsToComplete = adapter.itemCount
-        }
-        empty_list.setEmptyList(adapter.itemCount)
+        presenter.updateShoppingListTotalItems(currentShoppingListId, adapter.itemCount)
+        thisListIsEmpty()
     }
 
     override fun onRecognitionOnResultEvent(event: RecognitionOnResultEvent) {
         hideDialog()
         val results = event.bestResult.split(" e ", ignoreCase = true)
         results.forEach {
-            val itemShoppingList = presenter.getData().copy(
-                description = it,
-                shoppingListId = currentShoppingListId
+            val itemShoppingList = presenter.getData(shoppingListId = currentShoppingListId).copy(
+                description = it
             )
             GlobalUtils.itemsShoppingList.add(itemShoppingList)
             adapter.add(itemShoppingList)

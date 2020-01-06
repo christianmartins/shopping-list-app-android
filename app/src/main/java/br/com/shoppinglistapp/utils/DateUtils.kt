@@ -9,7 +9,6 @@ object DateUtils {
     fun getDateTime(): Long{
         val cal = Calendar.getInstance(Locale.getDefault())
         val dateFormat = SimpleDateFormat("ddMMyyyyHHmm", Locale.getDefault())
-
         return dateFormat.format(cal.time).toLong()
     }
 

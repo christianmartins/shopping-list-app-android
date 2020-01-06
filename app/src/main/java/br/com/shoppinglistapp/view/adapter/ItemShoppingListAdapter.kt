@@ -31,7 +31,20 @@ class ItemShoppingListAdapter(
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val item = itemsShoppingList[position]
+        setSection(holder, item)
         holder.setItem(item)
+    }
+
+    private fun setSection(baseViewHolder: BaseViewHolder, itemShoppingList: ItemShoppingList){
+        val myHolder = baseViewHolder as ItemShoppingListViewHolder
+        val isFirstNoSelected = itemsShoppingList.first { it.selected.not() }.id == itemShoppingList.id
+
+        if(isFirstNoSelected){
+            myHolder.setSection(true, R.string.not_added_in_cart)
+        }else{
+            val isFirstSelected= itemsShoppingList.first { it.selected }.id == itemShoppingList.id
+            myHolder.setSection(isFirstSelected, R.string.added_in_cart)
+        }
     }
 
 

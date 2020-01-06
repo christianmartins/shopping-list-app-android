@@ -4,13 +4,15 @@ import br.com.shoppinglistapp.data.model.ShoppingList
 import br.com.shoppinglistapp.utils.GlobalUtils
 
 class ShoppingListRepository {
-    private val shoppingListDao = GlobalUtils.db.getShoppingListDao()
 
-    suspend fun insertAsync(shoppingLists: List<ShoppingList>){
-        shoppingListDao.insert(*shoppingLists.toTypedArray())
+    private fun findShoppingList(currentShoppingListId: String): ShoppingList?{
+        return GlobalUtils.shoppingLists.find { it.id == currentShoppingListId }
     }
 
-    suspend fun getListAsync(userId: String = GlobalUtils.currentUser): List<ShoppingList>{
-        return shoppingListDao.getList(userId)
+    fun updateShoppingListTotalItems(shoppingListId: String, newTotal: Int){
+        findShoppingList(shoppingListId)?.let {
+            it.totalItemsToComplete = newTotal
+        }
     }
+
 }
