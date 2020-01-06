@@ -43,7 +43,6 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
-        onClickFloatingButton()
         empty_list.text = getString(R.string.shopping_list_empty_list)
         empty_list.setEmptyList(adapter.itemCount)
     }
@@ -98,9 +97,11 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
     }
 
     private fun navigateToItemsShoppingListFragment(shoppingListId: String){
-        findNavController().navigate(
-            ShoppingListFragmentDirections.actionShoppingListFragmentToItemShoppingListFragment(shoppingListId)
-        )
+        activity?.runOnUiThread {
+            findNavController().navigate(
+                ShoppingListFragmentDirections.actionShoppingListFragmentToItemShoppingListFragment(shoppingListId)
+            )
+        }
     }
 
     override fun onClickItemList(shoppingListId: String) {

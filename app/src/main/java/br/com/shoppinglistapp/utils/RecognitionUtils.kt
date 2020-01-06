@@ -67,4 +67,8 @@ class RecognitionUtils {
             }
         }
     }
+
+    fun stopRecognition(){
+        speechRecognizer?.cancel()
+    }
 }

@@ -31,6 +31,10 @@ class SpeakUtils(private val context: Context): TextToSpeech.OnInitListener {
         }
     }
 
+    fun stop(){
+        textToSpeech.stop()
+    }
+
     override fun onInit(p0: Int) {
         println( "${this.javaClass.name} - onInit: "+ if(p0 == TextToSpeech.SUCCESS)"success" else "failed")
     }

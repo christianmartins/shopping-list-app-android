@@ -56,7 +56,7 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
     }
 
     private fun loadList() {
-        val filteredList = GlobalUtils.itemsShoppingList.filter { it.shoppingListId == currentShoppingListId }
+        val filteredList = GlobalUtils.itemsShoppingList.filter { it.shoppingListId == currentShoppingListId }.sortedBy { it.selected }
         adapter.addAll(filteredList)
         empty_list.text = getString(R.string.item_shopping_list_empty_list)
         empty_list.setEmptyList(adapter.itemCount)

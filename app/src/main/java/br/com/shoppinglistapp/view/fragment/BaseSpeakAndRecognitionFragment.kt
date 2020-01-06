@@ -11,9 +11,9 @@ import br.com.shoppinglistapp.utils.event.RecognitionOnErrorEvent
 import br.com.shoppinglistapp.utils.event.RecognitionOnResultEvent
 import br.com.shoppinglistapp.utils.speak.SpeakUtils
 
-abstract class BaseRecognitionFragment: BaseFragment(){
+abstract class BaseSpeakAndRecognitionFragment: BaseFragment(){
 
-    protected val recognitionUtils = RecognitionUtils()
+    private val recognitionUtils = RecognitionUtils()
     private var speakUtils: SpeakUtils? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +23,7 @@ abstract class BaseRecognitionFragment: BaseFragment(){
 
     override fun onMessageEvent(event: MessageEvent) {
         super.onMessageEvent(event)
-        if(GlobalUtils.fragmentAlive == this@BaseRecognitionFragment.javaClass.name) {
+        if(GlobalUtils.fragmentAlive == this@BaseSpeakAndRecognitionFragment.javaClass.name) {
             when (event) {
                 is RecognitionOnResultEvent -> {
                     onRecognitionOnResultEvent(event)
@@ -64,5 +64,27 @@ abstract class BaseRecognitionFragment: BaseFragment(){
         activity?.runOnUiThread {
             recognitionUtils.startRecognition(recognitionParams)
         }
+    }
+
+    private fun stopAll(){
+        stopRecognition()
+        stopSpeak()
+    }
+
+    private fun stopSpeak(){
+        activity?.runOnUiThread {
+            speakUtils?.stop()
+        }
+    }
+
+    private fun stopRecognition(){
+        activity?.runOnUiThread {
+            recognitionUtils.stopRecognition()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        stopAll()
     }
 }
