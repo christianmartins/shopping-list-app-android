@@ -57,7 +57,9 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
     }
 
     private fun loadList() {
-        adapter.addAll(presenter.getItems(currentShoppingListId))
+        val list = presenter.getOrderedItems(currentShoppingListId)
+        adapter.clear()
+        adapter.addAll(list)
         thisListIsEmpty()
     }
 
@@ -71,8 +73,13 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
 
     override fun deleteItem(item: ItemShoppingList) {
         presenter.deleteItem(item)
-        adapter.remove(item)
+        loadList()
         updateTotalItemsToCompleteShoppingList()
+    }
+
+    override fun onSelectedItem(item: ItemShoppingList) {
+        presenter.updateSelectedItem(item, currentShoppingListId)
+        loadList()
     }
 
     override fun onClickFloatingButton() {
@@ -97,8 +104,8 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
             val itemShoppingList = presenter.getData(shoppingListId = currentShoppingListId).copy(
                 description = it
             )
-            GlobalUtils.itemsShoppingList.add(itemShoppingList)
-            adapter.add(itemShoppingList)
+            presenter.add(itemShoppingList)
+            loadList()
         }
         updateTotalItemsToCompleteShoppingList()
     }

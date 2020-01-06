@@ -3,8 +3,8 @@ package br.com.shoppinglistapp.view.viewholder
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import br.com.shoppinglistapp.R
+import br.com.shoppinglistapp.data.model.BaseModel
 import br.com.shoppinglistapp.data.model.ItemShoppingList
 import br.com.shoppinglistapp.extensions.changeColor
 import br.com.shoppinglistapp.extensions.setPaintFlagsStrikeThroughEffect
@@ -21,11 +21,12 @@ class ItemShoppingListViewHolder(
     private val deleted = itemView.findViewById<ImageView >(R.id.item_shopping_list_delete)
     private val context = itemView.context
 
-    override fun setItem(item: Any) {
+    override fun setItem(item: BaseModel) {
         if(item is ItemShoppingList){
             description?.text = item.description
             onClickDeleteItem(item)
             setStrikeThroughEffect(item)
+            onSelectedItem(item)
         }
     }
 
@@ -46,6 +47,14 @@ class ItemShoppingListViewHolder(
             View.VISIBLE
         }else{
             View.GONE
+        }
+    }
+
+    private fun onSelectedItem(itemShoppingList: ItemShoppingList){
+        itemView.setOnClickListener {
+            itemShoppingList.selected = !itemShoppingList.selected
+            setStrikeThroughEffect(itemShoppingList)
+            itemShoppingListListeners.onSelectedItem(itemShoppingList)
         }
     }
 }

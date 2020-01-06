@@ -37,13 +37,17 @@ class ItemShoppingListAdapter(
 
     private fun setSection(baseViewHolder: BaseViewHolder, itemShoppingList: ItemShoppingList){
         val myHolder = baseViewHolder as ItemShoppingListViewHolder
-        val isFirstNoSelected = itemsShoppingList.first { it.selected.not() }.id == itemShoppingList.id
+        val isFirstNoSelected = itemsShoppingList.firstOrNull{ !it.selected }?.id == itemShoppingList.id
 
-        if(isFirstNoSelected){
-            myHolder.setSection(true, R.string.not_added_in_cart)
-        }else{
-            val isFirstSelected= itemsShoppingList.first { it.selected }.id == itemShoppingList.id
-            myHolder.setSection(isFirstSelected, R.string.added_in_cart)
+        try{
+            if(isFirstNoSelected){
+                myHolder.setSection(true, R.string.not_added_in_cart)
+            }else{
+                val isFirstSelected= itemsShoppingList.firstOrNull{ it.selected }?.id == itemShoppingList.id
+                myHolder.setSection(isFirstSelected, R.string.added_in_cart)
+            }
+        }catch (e: Exception){
+            e.printStackTrace()
         }
     }
 
@@ -62,6 +66,10 @@ class ItemShoppingListAdapter(
         val position = this.itemsShoppingList.indexOf(item)
         this.itemsShoppingList.removeAt(position)
         this.notifyItemRemoved(position)
+    }
+
+    fun clear(){
+        itemsShoppingList.clear()
     }
 
 }

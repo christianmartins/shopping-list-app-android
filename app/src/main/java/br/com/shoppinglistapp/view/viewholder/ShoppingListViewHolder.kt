@@ -2,6 +2,7 @@ package br.com.shoppinglistapp.view.viewholder
 
 import android.view.View
 import br.com.shoppinglistapp.R
+import br.com.shoppinglistapp.data.model.BaseModel
 import br.com.shoppinglistapp.data.model.ShoppingList
 import br.com.shoppinglistapp.utils.DateUtils
 import br.com.shoppinglistapp.utils.interfaces.ShoppingFragmentListClickHandler
@@ -21,7 +22,7 @@ class ShoppingListViewHolder(
         itemView.context
     }
 
-    override fun setItem(item: Any) {
+    override fun setItem(item: BaseModel) {
         if(item is ShoppingList){
             title?.text = item.title
             description?.text = item.description

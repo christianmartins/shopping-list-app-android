@@ -11,22 +11,20 @@ class ItemShoppingListFragmentPresenter{
     private val shoppingListRepository = ShoppingListRepository()
     private val itemShoppingListRepository = ItemShoppingListRepository()
 
+    fun add(item: ItemShoppingList) {
+        itemShoppingListRepository.add(item)
+    }
+
     private fun getDataList(numberOfItems: Int = 200, shoppingListId: String) = ItemShoppingListMock.getItemShoppingListData(numberOfItems, shoppingListId)
 
     fun getData(numberOfItems: Int = 1, shoppingListId: String) = getDataList(numberOfItems, shoppingListId)[0]
 
-    fun getItems(shoppingListId: String): List<ItemShoppingList>{
-//        return itemShoppingListRepository.getItems(shoppingListId)
-        return listForTest(shoppingListId)
+    fun getOrderedItems(shoppingListId: String): List<ItemShoppingList>{
+        return itemShoppingListRepository.getOrderedItems(shoppingListId)
     }
 
-    private fun listForTest(shoppingListId: String) = getDataList(shoppingListId = shoppingListId).distinctBy { it.id }.let {
-        it.forEachIndexed { index, itemShoppingList ->
-            if(index > (it.size / 2)){
-                itemShoppingList.selected = true
-            }
-        }
-        it
+    fun updateSelectedItem(selectedItem: ItemShoppingList, shoppingListId: String) {
+        itemShoppingListRepository.updateSelectedItem(selectedItem, shoppingListId)
     }
 
     fun deleteItem(item: ItemShoppingList) = itemShoppingListRepository.deleteItem(item)
