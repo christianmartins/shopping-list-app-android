@@ -16,7 +16,8 @@ class ItemShoppingListFragmentPresenter{
     fun getData(numberOfItems: Int = 1, shoppingListId: String) = getDataList(numberOfItems, shoppingListId)[0]
 
     fun getItems(shoppingListId: String): List<ItemShoppingList>{
-        return itemShoppingListRepository.getItems(shoppingListId)
+//        return itemShoppingListRepository.getItems(shoppingListId)
+        return listForTest(shoppingListId)
     }
 
     private fun listForTest(shoppingListId: String) = getDataList(shoppingListId = shoppingListId).distinctBy { it.id }.let {

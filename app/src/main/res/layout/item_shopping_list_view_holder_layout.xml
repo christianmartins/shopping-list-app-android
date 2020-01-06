@@ -40,9 +40,8 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/item_shopping_list_description"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
                     android:textAllCaps="true"
                     android:gravity="center_vertical"
                     android:layout_alignParentTop="true"

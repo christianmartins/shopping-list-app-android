@@ -2,12 +2,15 @@ package br.com.shoppinglistapp.view.viewholder
 
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import br.com.shoppinglistapp.R
 import br.com.shoppinglistapp.data.model.ItemShoppingList
+import br.com.shoppinglistapp.extensions.changeColor
+import br.com.shoppinglistapp.extensions.setPaintFlagsStrikeThroughEffect
 import br.com.shoppinglistapp.utils.interfaces.ItemShoppingListListeners
 import com.google.android.material.textview.MaterialTextView
+
 
 class ItemShoppingListViewHolder(
     itemView: View,
@@ -22,6 +25,7 @@ class ItemShoppingListViewHolder(
         if(item is ItemShoppingList){
             description?.text = item.description
             onClickDeleteItem(item)
+            setStrikeThroughEffect(item)
         }
     }
 
@@ -31,10 +35,15 @@ class ItemShoppingListViewHolder(
         }
     }
 
+    private fun setStrikeThroughEffect(itemShoppingList: ItemShoppingList){
+        description.setPaintFlagsStrikeThroughEffect(itemShoppingList.selected)
+        description.changeColor(if(itemShoppingList.selected)android.R.color.darker_gray else android.R.color.black)
+    }
+
     fun setSection(hasVisible: Boolean, @StringRes stringRes: Int){
         section.visibility = if(hasVisible){
             section.text = context.getString(stringRes)
-             View.VISIBLE
+            View.VISIBLE
         }else{
             View.GONE
         }
