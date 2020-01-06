@@ -2,6 +2,7 @@ package br.com.shoppinglistapp.view.fragment
 
 import android.os.Bundle
 import androidx.annotation.StringRes
+import br.com.shoppinglistapp.R
 import br.com.shoppinglistapp.utils.GlobalUtils
 import br.com.shoppinglistapp.utils.RecognitionParams
 import br.com.shoppinglistapp.utils.RecognitionUtils
@@ -38,6 +39,20 @@ abstract class BaseRecognitionFragment: BaseFragment(){
     abstract fun onRecognitionOnResultEvent(event: RecognitionOnResultEvent)
 
     abstract fun onRecognitionOnErrorEvent(event: RecognitionOnErrorEvent)
+
+    fun speakOkAndMore(@StringRes stringRes: Int, onSpeakDone:(() -> Unit)? = null, params: Bundle? = null){
+        speakOk(onSpeakDone = {
+            speak(
+                stringRes,
+                onSpeakDone,
+                params
+            )
+        })
+    }
+
+    fun speakOk(onSpeakDone:(() -> Unit)? = null, params: Bundle? = null){
+        speak(R.string.speak_ok, onSpeakDone, params)
+    }
 
     protected fun speak(@StringRes stringRes: Int, onSpeakDone:(() -> Unit)? = null, params: Bundle? = null){
         activity?.runOnUiThread {

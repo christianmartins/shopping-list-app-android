@@ -68,17 +68,15 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
                 if (bestResult.equals(getString(R.string.speak_confirm), true)) {
                     navigateToItemsShoppingListFragment(GlobalUtils.currentShoppingListId)
                 }
-                speak(R.string.speak_ok)
+                speakOk()
             } else {
                 val shoppingList = presenter.getData().copy(title = bestResult)
                 addItemInAdapter(shoppingList)
 
                 val params = RecognitionParams(ActionType.REDIRECT_TO_ITEM_SHOPPING_LIST, shoppingList.id)
-                speak(
+                speakOkAndMore(
                     R.string.shopping_list_redirect_to_item_shopping_list,
-                    onSpeakDone = {
-                        startRecognition(params)
-                    }
+                    onSpeakDone = { startRecognition(params) }
                 )
             }
         }

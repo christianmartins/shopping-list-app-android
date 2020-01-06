@@ -13,6 +13,7 @@ import br.com.shoppinglistapp.utils.event.RecognitionOnErrorEvent
 import br.com.shoppinglistapp.utils.event.RecognitionOnResultEvent
 import br.com.shoppinglistapp.utils.interfaces.ItemShoppingListListeners
 import br.com.shoppinglistapp.view.adapter.ItemShoppingListAdapter
+import br.com.shoppinglistapp.view.dialog.RecognitionExplainDialog
 import kotlinx.android.synthetic.main._empty_list_layout.*
 import kotlinx.android.synthetic.main.item_shopping_list_layout.*
 
@@ -30,6 +31,8 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
         arguments?.getString("shoppingListId")?: ""
     }
 
+    private var dialogExplainRecognition: RecognitionExplainDialog?  = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,6 +45,9 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
+        context?.let {
+            dialogExplainRecognition = RecognitionExplainDialog(it, R.layout.recognition_item_shopping_list_layout)
+        }
     }
 
     override fun initAdapter(){
@@ -63,7 +69,13 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
     }
 
     override fun onClickFloatingButton() {
-        recognitionUtils.startRecognition()
+        dialogExplainRecognition?.show()
+        speak(
+            R.string.speak_item_shopping_add_item,
+            onSpeakDone = {
+                startRecognition()
+            }
+        )
     }
 
     private fun updateTotalItemsToCompleteShoppingList(){
@@ -74,6 +86,7 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
     }
 
     override fun onRecognitionOnResultEvent(event: RecognitionOnResultEvent) {
+        hideDialog()
         val results = event.bestResult.split(" e ", ignoreCase = true)
         results.forEach {
             val itemShoppingList = presenter.getData().copy(
@@ -87,6 +100,13 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
     }
 
     override fun onRecognitionOnErrorEvent(event: RecognitionOnErrorEvent) {
+        hideDialog()
         speak(event.errorMessageStringRes)
+    }
+
+    private fun hideDialog(){
+        activity?.runOnUiThread {
+            dialogExplainRecognition?.dismiss()
+        }
     }
 }
