@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import br.com.shoppinglistapp.R
 import br.com.shoppinglistapp.extensions.setupBottomNavigationBar
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -16,6 +17,10 @@ class MainActivity : BaseActivity(){
 
     val fab by lazy {
         findViewById<FloatingActionButton?>(R.id.fab)
+    }
+
+    val bottomNavigationMenu by lazy {
+        findViewById<BottomNavigationView?>(R.id.bottom_app_bar)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

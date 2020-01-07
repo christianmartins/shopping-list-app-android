@@ -9,6 +9,7 @@ abstract class BaseCollectionFragment: BaseSpeakAndRecognitionFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showFabAndBottomNav()
         myFabOnClickListener()
     }
 

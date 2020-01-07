@@ -23,7 +23,7 @@ class ItemShoppingListRepository {
     private fun orderingList(list: List<ItemShoppingList>): List<ItemShoppingList> {
         return list.sortedWith(
             compareBy(
-                { it.createAt }, { it.selected }
+                { it.selected }, { it.createAt }
             )
         )
     }

@@ -1,9 +1,12 @@
 package br.com.shoppinglistapp.view.fragment
 
 import androidx.fragment.app.Fragment
+import br.com.shoppinglistapp.extensions.hide
+import br.com.shoppinglistapp.extensions.show
 import br.com.shoppinglistapp.utils.GlobalUtils
 import br.com.shoppinglistapp.utils.event.MessageEvent
 import br.com.shoppinglistapp.view.activity.MainActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -31,7 +34,21 @@ open class BaseFragment: Fragment(){
         return WeakReference(activity as? MainActivity)
     }
 
-    protected fun getFab(): FloatingActionButton?{
+    fun getFab(): FloatingActionButton?{
         return getWeakMainActivity().get()?.fab
+    }
+
+    private fun getBottomNavigationMenuView(): BottomNavigationView?{
+        return getWeakMainActivity().get()?.bottomNavigationMenu
+    }
+
+    fun hideFabAndBottomNav(){
+        getFab()?.hide()
+        getBottomNavigationMenuView()?.hide()
+    }
+
+    fun showFabAndBottomNav(){
+        getFab()?.show()
+        getBottomNavigationMenuView()?.show()
     }
 }
