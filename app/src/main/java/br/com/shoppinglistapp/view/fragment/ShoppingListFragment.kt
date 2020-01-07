@@ -28,7 +28,6 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
     private val adapter by lazy { ShoppingListAdapter(this) }
 
     init {
-        GlobalUtils.shoppingLists.addAll(presenter.getDataList())
         adapter.addAll(GlobalUtils.shoppingLists)
     }
 

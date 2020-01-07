@@ -7,7 +7,7 @@
     <!--End-->
 
     <!--Shopping List-->
-    <string name="app_name">Shopping List App</string>
+    <string name="app_name">Lista de compras App</string>
     <string name="empty_list">Lista vazia!</string>
     <string name="shopping_list_author_name">Criado por: %s</string>
     <string name="shopping_list_current_progress">%d / %d</string>
@@ -61,6 +61,5 @@
     <string name="not_added_in_cart">Não adicionados no carrinho</string>
     <string name="added_in_cart">Adicionados no carrinho</string>
     <string name="visitor_enter">Entrar como visitante</string>
-
 
 </resources>
