@@ -66,7 +66,7 @@ abstract class BaseSpeakAndRecognitionFragment: BaseFragment(){
         }
     }
 
-    private fun stopAll(){
+    fun stopAll(){
         stopRecognition()
         stopSpeak()
     }

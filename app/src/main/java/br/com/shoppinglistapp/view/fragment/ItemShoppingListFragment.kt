@@ -8,7 +8,6 @@ import br.com.shoppinglistapp.R
 import br.com.shoppinglistapp.data.model.ItemShoppingList
 import br.com.shoppinglistapp.extensions.setEmptyList
 import br.com.shoppinglistapp.presenter.ItemShoppingListFragmentPresenter
-import br.com.shoppinglistapp.utils.GlobalUtils
 import br.com.shoppinglistapp.utils.event.RecognitionOnErrorEvent
 import br.com.shoppinglistapp.utils.event.RecognitionOnResultEvent
 import br.com.shoppinglistapp.utils.interfaces.ItemShoppingListListeners
@@ -83,6 +82,7 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
     }
 
     override fun onClickFloatingButton() {
+        stopAll()
         dialogExplainRecognition?.show()
         speak(
             R.string.speak_item_shopping_add_item,

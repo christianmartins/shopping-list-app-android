@@ -83,6 +83,7 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
     }
 
     override fun onClickFloatingButton(){
+        stopAll()
         speak(
             R.string.text_to_speech_title_shopping_list,
             onSpeakDone = {
