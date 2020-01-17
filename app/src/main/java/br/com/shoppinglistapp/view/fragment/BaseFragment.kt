@@ -1,12 +1,21 @@
 package br.com.shoppinglistapp.view.fragment
 
+import android.content.Context
+import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import br.com.shoppinglistapp.R
 import br.com.shoppinglistapp.extensions.hide
 import br.com.shoppinglistapp.extensions.show
 import br.com.shoppinglistapp.utils.GlobalUtils
 import br.com.shoppinglistapp.utils.event.MessageEvent
 import br.com.shoppinglistapp.view.activity.MainActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -50,5 +59,49 @@ open class BaseFragment: Fragment(){
     fun showFabAndBottomNav(){
         getFab()?.show()
         getBottomNavigationMenuView()?.show()
+    }
+
+    fun showMessage(
+        @StringRes resStringTitle: Int,
+        @StringRes resStringMessage: Int,
+        @StringRes resStringPositiveButton: Int = R.string.ok_confirm
+    ){
+        confirmMessage(
+            resStringTitle = resStringTitle,
+            resStringMessage = resStringMessage,
+            resStringPositiveButton = resStringPositiveButton,
+            resStringNegativeButton = R.string.nothing,
+            positiveClickListener = DialogInterface.OnClickListener { dialogInterface, _ -> dialogInterface.dismiss()},
+            negativeClickListener = null
+        )
+    }
+
+    @Suppress("SameParameterValue")
+    private fun confirmMessage(
+        @StringRes resStringTitle: Int,
+        @StringRes resStringMessage: Int,
+        @StringRes resStringPositiveButton: Int,
+        @StringRes resStringNegativeButton: Int,
+        positiveClickListener: DialogInterface.OnClickListener,
+        negativeClickListener: DialogInterface.OnClickListener?
+    ){
+        activity?.runOnUiThread {
+            context?.let {
+                MaterialAlertDialogBuilder(it)
+                .setTitle(resStringTitle)
+                .setMessage(resStringMessage)
+                .setPositiveButton(resStringPositiveButton, positiveClickListener).apply {
+                    if(negativeClickListener != null)
+                        setNegativeButton(resStringNegativeButton, negativeClickListener)
+                }.show()
+            }
+        }
+    }
+
+    fun showProgressBarDialog(context: Context): AlertDialog{
+        return MaterialAlertDialogBuilder(context)
+        .setBackground(ColorDrawable(Color.TRANSPARENT))
+        .setView(R.layout._progress_bar)
+        .show()
     }
 }

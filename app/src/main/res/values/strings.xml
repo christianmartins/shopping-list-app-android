@@ -44,7 +44,7 @@
         <string name="speech_error_could_not_start_speech_recognizer">Não foi possível iniciar o reconhecedor de voz</string>
     <!--End-->
 
-    <!--Speak commons-->
+    <!--Speak commons-->'
     <string name="speak_confirm">SIM</string>
     <string name="speak_ok">OK</string>
     <string name="speak_not_understand">Não entendi</string>
@@ -61,5 +61,16 @@
     <string name="not_added_in_cart">Não adicionados no carrinho</string>
     <string name="added_in_cart">Adicionados no carrinho</string>
     <string name="visitor_enter">Entrar como visitante</string>
+
+    <!-- commons -->
+    <string name="ok_confirm">OK</string>
+    <string name="nothing"/>
+    <string name="url_debug">http://192.168.130.2:3000/</string>
+    <string name="url_release">http://177.207.98.195:3000/</string>
+
+    <!-- error -->
+    <string name="generic_dialog_title">Atenção!</string>
+    <string name="login_error">Ocorreu uma falha ao tentar se conectar!</string>
+
 
 </resources>

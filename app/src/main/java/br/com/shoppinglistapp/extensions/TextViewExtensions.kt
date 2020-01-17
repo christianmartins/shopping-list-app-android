@@ -21,3 +21,8 @@ fun TextView.setPaintFlagsStrikeThroughEffect(isStrikeThrough: Boolean){
 }
 
 
+fun TextView.getSafeText(): String{
+    return if(text.isNullOrBlank() && text.isNullOrEmpty()){
+        ""
+    }else text.toString()
+}

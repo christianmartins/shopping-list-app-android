@@ -5,11 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import br.com.shoppinglistapp.R
+import br.com.shoppinglistapp.extensions.getSafeText
+import br.com.shoppinglistapp.extensions.nonNullable
+import br.com.shoppinglistapp.presenter.LoginPresenter
 import kotlinx.android.synthetic.main.login_fragment_layout.*
+import kotlinx.coroutines.launch
 
 class LoginFragment: BaseFragment() {
+
+    private val presenter by lazy {
+        LoginPresenter()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         hideFabAndBottomNav()
@@ -24,13 +33,33 @@ class LoginFragment: BaseFragment() {
 
     private fun login(){
         login_enter.setOnClickListener {
-            Toast.makeText(context!!, "logando...", Toast.LENGTH_SHORT).show()
+            val alertDialog = showProgressBarDialog(context!!)
+            val userName = login_edit_text_email?.getSafeText().nonNullable().trim()
+            val password = login_edit_text_passowrd?.getSafeText().nonNullable().trim()
+
+            lifecycleScope.launch {
+                val isSuccess = presenter.loginAsync(userName, password).await()
+                if(isSuccess){
+                    activity?.runOnUiThread {
+                        navigateToShoppingListFragment()
+                    }
+                }else{
+                    showMessage(R.string.generic_dialog_title, R.string.login_error)
+                }
+                activity?.runOnUiThread {
+                    alertDialog.hide()
+                }
+            }
         }
     }
 
     private fun visitorEnterClick(){
         visitor_enter.setOnClickListener {
-            findNavController().navigate(ShoppingListFragmentDirections.actionGlobalShoppingListFragment())
+            navigateToShoppingListFragment()
         }
+    }
+
+    private fun navigateToShoppingListFragment(){
+        findNavController().navigate(ShoppingListFragmentDirections.actionGlobalShoppingListFragment())
     }
 }
