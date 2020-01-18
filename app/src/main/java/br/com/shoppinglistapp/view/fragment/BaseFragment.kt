@@ -66,18 +66,24 @@ open class BaseFragment: Fragment(){
         @StringRes resStringMessage: Int,
         @StringRes resStringPositiveButton: Int = R.string.ok_confirm
     ){
-        confirmMessage(
-            resStringTitle = resStringTitle,
-            resStringMessage = resStringMessage,
-            resStringPositiveButton = resStringPositiveButton,
-            resStringNegativeButton = R.string.nothing,
-            positiveClickListener = DialogInterface.OnClickListener { dialogInterface, _ -> dialogInterface.dismiss()},
-            negativeClickListener = null
-        )
+        activity?.runOnUiThread {
+            context?.let {
+                confirmMessage(
+                    context = it,
+                    resStringTitle = resStringTitle,
+                    resStringMessage = resStringMessage,
+                    resStringPositiveButton = resStringPositiveButton,
+                    resStringNegativeButton = R.string.nothing,
+                    positiveClickListener = DialogInterface.OnClickListener { dialogInterface, _ -> dialogInterface.dismiss()},
+                    negativeClickListener = null
+                )
+            }
+        }
     }
 
     @Suppress("SameParameterValue")
     private fun confirmMessage(
+        context: Context,
         @StringRes resStringTitle: Int,
         @StringRes resStringMessage: Int,
         @StringRes resStringPositiveButton: Int,
@@ -85,17 +91,13 @@ open class BaseFragment: Fragment(){
         positiveClickListener: DialogInterface.OnClickListener,
         negativeClickListener: DialogInterface.OnClickListener?
     ){
-        activity?.runOnUiThread {
-            context?.let {
-                MaterialAlertDialogBuilder(it)
-                .setTitle(resStringTitle)
-                .setMessage(resStringMessage)
-                .setPositiveButton(resStringPositiveButton, positiveClickListener).apply {
-                    if(negativeClickListener != null)
-                        setNegativeButton(resStringNegativeButton, negativeClickListener)
-                }.show()
-            }
-        }
+        MaterialAlertDialogBuilder(context)
+        .setTitle(resStringTitle)
+        .setMessage(resStringMessage)
+        .setPositiveButton(resStringPositiveButton, positiveClickListener).apply {
+            if(negativeClickListener != null)
+                setNegativeButton(resStringNegativeButton, negativeClickListener)
+        }.show()
     }
 
     fun showProgressBarDialog(context: Context): AlertDialog{
