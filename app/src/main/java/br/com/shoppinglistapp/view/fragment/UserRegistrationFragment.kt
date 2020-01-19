@@ -1,15 +1,24 @@
 package br.com.shoppinglistapp.view.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import br.com.shoppinglistapp.R
 import br.com.shoppinglistapp.extensions.*
+import br.com.shoppinglistapp.presenter.UserRegistrationPresenter
 import kotlinx.android.synthetic.main.user_registration_view_layout.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class UserRegistrationFragment : BaseFragment() {
+
+    private val presenter by lazy {
+        UserRegistrationPresenter()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +41,38 @@ class UserRegistrationFragment : BaseFragment() {
 
     private fun registerUser(){
         if(validateFields()){
-            navigateToShoppingList()
+            context?.let {
+                val alertDialog = showProgressBarDialog(it)
+
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val response = presenter.userRegister(getEmail(), getPassword(), getFirstName(), getLastName())
+                    activity?.runOnUiThread { alertDialog.hide() }
+
+                    if(response?.success == true) {
+                        showMessage(R.string.generic_dialog_title, R.string.user_registration_view_register_is_success, onOkClick = {
+                            activity?.runOnUiThread {
+                                onSuccess(it)
+                            }
+                        })
+                    }else{
+                        showMessage(R.string.generic_dialog_title, R.string.user_registration_view_register_not_is_success)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun onSuccess(context: Context){
+        val alertDialog= showProgressBarDialog(context)
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            val isSuccess = presenter.loginAsync(getEmail(), getPassword())
+            if(isSuccess){
+                navigateToShoppingList()
+            }else{
+                findNavController().navigateUp()
+            }
+            activity?.runOnUiThread {alertDialog.hide()}
         }
     }
 

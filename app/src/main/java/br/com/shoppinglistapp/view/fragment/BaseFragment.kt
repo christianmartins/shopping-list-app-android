@@ -64,7 +64,8 @@ open class BaseFragment: Fragment(){
     fun showMessage(
         @StringRes resStringTitle: Int,
         @StringRes resStringMessage: Int,
-        @StringRes resStringPositiveButton: Int = R.string.ok_confirm
+        @StringRes resStringPositiveButton: Int = R.string.ok_confirm,
+        onOkClick:(() -> Unit)? = null
     ){
         activity?.runOnUiThread {
             context?.let {
@@ -74,7 +75,10 @@ open class BaseFragment: Fragment(){
                     resStringMessage = resStringMessage,
                     resStringPositiveButton = resStringPositiveButton,
                     resStringNegativeButton = R.string.nothing,
-                    positiveClickListener = DialogInterface.OnClickListener { dialogInterface, _ -> dialogInterface.dismiss()},
+                    positiveClickListener = DialogInterface.OnClickListener { dialogInterface, _ ->
+                        onOkClick?.invoke()
+                        dialogInterface.dismiss()
+                    },
                     negativeClickListener = null
                 )
             }

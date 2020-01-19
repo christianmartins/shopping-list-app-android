@@ -82,5 +82,9 @@
     <string name="user_registration_view_hint_password_repeat">Repita a senha</string>
     <string name="user_registration_view_title">Cadastro</string>
 
+    <string name="user_registration_view_register_is_success">Cadastro realizado com sucesso!</string>
+    <string name="user_registration_view_register_not_is_success">Falha ao cadastrar o usuário!</string>
+
+
 
 </resources>
