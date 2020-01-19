@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
@@ -23,7 +24,10 @@
         <argument
             android:name="shoppingListId"
             app:argType="string" />
-    </fragment><action android:id="@+id/action_global_shoppingListFragment" app:destination="@id/shoppingListFragment"/>
+    </fragment>
+
+    <action android:id="@+id/action_global_shoppingListFragment" app:destination="@id/shoppingListFragment"/>
+
     <fragment
         android:id="@+id/loginFragment"
         android:name="br.com.shoppinglistapp.view.fragment.LoginFragment"
@@ -31,6 +35,20 @@
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_shoppingListFragment"
+            app:destination="@id/shoppingListFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_userRegistrationView"
+            app:destination="@id/userRegistrationView" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/userRegistrationView"
+        android:name="br.com.shoppinglistapp.view.fragment.UserRegistrationFragment"
+        android:label="UserRegistrationView"
+        tools:layout="@layout/user_registration_view_layout"
+        >
+        <action
+            android:id="@+id/action_userRegistrationView_to_shoppingListFragment"
             app:destination="@id/shoppingListFragment" />
     </fragment>
 </navigation>

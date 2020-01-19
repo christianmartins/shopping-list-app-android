@@ -41,7 +41,7 @@ class MainActivity : BaseActivity(){
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return currentNavController?.value?.navigateUp() ?: false
+        return currentNavController?.value?.navigateUp()?: false
     }
 
     private fun onBottomNavigationMenuItemReselect(){

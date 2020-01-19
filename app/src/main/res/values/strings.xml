@@ -73,4 +73,14 @@
     <string name="login_error">Ocorreu uma falha ao tentar se conectar!</string>
 
 
+    <!-- user registration view -->
+    <string name="user_registration_view_hint_email">Email</string>
+    <string name="user_registration_view_hint_password">Senha</string>
+    <string name="user_registration_view_hint_last_name">Ultimo nome</string>
+    <string name="user_registration_view_hint_first_name">Primeiro nome</string>
+    <string name="user_registration_view_register">Cadastrar</string>
+    <string name="user_registration_view_hint_password_repeat">Repita a senha</string>
+    <string name="user_registration_view_title">Cadastro</string>
+
+
 </resources>

@@ -32,6 +32,7 @@ class LoginFragment: BaseFragment() {
         visitorEnterClick()
         login()
         setPreferenceData()
+        onClickButtonUserRegister()
     }
 
     private fun login(){
@@ -93,6 +94,18 @@ class LoginFragment: BaseFragment() {
     private fun navigateToShoppingListFragment(){
         activity?.runOnUiThread {
             findNavController().navigate(ShoppingListFragmentDirections.actionGlobalShoppingListFragment())
+        }
+    }
+
+    private fun onClickButtonUserRegister(){
+        login_redirect_to_user_register?.setOnClickListener {
+            navigateToUserRegister()
+        }
+    }
+
+    private fun navigateToUserRegister(){
+        activity?.runOnUiThread {
+            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToUserRegistrationView())
         }
     }
 }

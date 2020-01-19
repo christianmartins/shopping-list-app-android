@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="center">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_gravity="center"
+    >
 
     <TextView
         android:id="@+id/login_app_name"
@@ -42,27 +48,38 @@
         android:layout_below="@+id/login_app_name"
         >
 
-        <androidx.core.widget.ContentLoadingProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:foregroundGravity="center"
-
-            />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/login_text_input_email"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/login_fragment_email"
-            android:layout_margin="@dimen/margin_default">
+            android:layout_height="97dp"
+            >
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/login_edit_text_email"
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/login_redirect_to_user_register"
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:layout_gravity="end|top"
+                android:layout_marginEnd="8dp"
+                android:background="@color/colorAccent"
+                android:src="@drawable/ic_add_white_24dp"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/login_text_input_email"
+                android:layout_gravity="bottom"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:hint="@string/login_fragment_email"
+                android:layout_margin="@dimen/margin_default">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/login_edit_text_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </FrameLayout>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/login_text_input_password"
@@ -97,7 +114,10 @@
             android:text="@string/visitor_enter"
             android:layout_gravity="center"
             android:layout_margin="@dimen/margin_default"
+            android:padding="8dp"
             />
     </LinearLayout>
 
 </RelativeLayout>
+
+</ScrollView>
