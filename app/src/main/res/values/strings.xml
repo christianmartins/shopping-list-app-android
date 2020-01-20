@@ -65,7 +65,7 @@
     <!-- commons -->
     <string name="ok_confirm">OK</string>
     <string name="nothing"/>
-    <string name="url_debug">http://192.168.130.2:3000/</string>
+    <string name="url_debug">http://192.168.25.16:3000/</string>
     <string name="url_release">http://177.207.98.195:3000/</string>
 
     <!-- error -->

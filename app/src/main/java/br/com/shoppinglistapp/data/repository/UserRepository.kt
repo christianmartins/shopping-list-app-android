@@ -2,12 +2,9 @@ package br.com.shoppinglistapp.data.repository
 
 import br.com.shoppinglistapp.data.webservice.NetworkServiceProvider
 import br.com.shoppinglistapp.data.webservice.request.RequestLogin
-import br.com.shoppinglistapp.data.webservice.request.RequestUserRegister
-import br.com.shoppinglistapp.data.webservice.response.Message
-import br.com.shoppinglistapp.data.webservice.response.ResponseUserRegister
+import br.com.shoppinglistapp.data.webservice.request.RequestRegisterUser
 import br.com.shoppinglistapp.extensions.nonNullable
 import br.com.shoppinglistapp.utils.GlobalUtils
-import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -33,23 +30,20 @@ class UserRepository {
         }
     }
 
-    suspend fun userRegister(email: String, password: String, firstName: String, lastName: String): ResponseUserRegister?{
+    suspend fun registerUser(email: String, password: String, firstName: String, lastName: String): Boolean{
         return try{
             val response = withContext(Dispatchers.IO){
-                networkServiceProvider.getService().userRegister(RequestUserRegister(email, password, firstName, lastName)).execute()
+                networkServiceProvider.getService().registerUser(RequestRegisterUser(email, password, firstName, lastName)).execute()
             }
 
             if(response.isSuccessful){
-                response.body()
+                response.body()?.success?:false
             }else{
-                val errorBody = response.errorBody()
-                println(errorBody?.string())
-                Gson().toJson(errorBody?.string())
-                ResponseUserRegister(false, null, null, Message(1, "", "Usuário já cadastrado"))
+                false
             }
         }catch (e: Exception){
             e.printStackTrace()
-            null
+            false
         }
     }
 

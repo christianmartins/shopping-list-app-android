@@ -25,6 +25,7 @@ class UserRegistrationFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        hideFabAndBottomNav()
         return inflater.inflate(R.layout.user_registration_view_layout, container, false)
     }
 
@@ -45,10 +46,10 @@ class UserRegistrationFragment : BaseFragment() {
                 val alertDialog = showProgressBarDialog(it)
 
                 lifecycleScope.launch(Dispatchers.IO) {
-                    val response = presenter.userRegister(getEmail(), getPassword(), getFirstName(), getLastName())
+                    val isSuccess = presenter.registerUser(getEmail(), getPassword(), getFirstName(), getLastName())
                     activity?.runOnUiThread { alertDialog.hide() }
 
-                    if(response?.success == true) {
+                    if(isSuccess) {
                         showMessage(R.string.generic_dialog_title, R.string.user_registration_view_register_is_success, onOkClick = {
                             activity?.runOnUiThread {
                                 onSuccess(it)

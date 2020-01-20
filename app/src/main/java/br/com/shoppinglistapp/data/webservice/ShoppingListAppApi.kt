@@ -1,7 +1,7 @@
 package br.com.shoppinglistapp.data.webservice
 
 import br.com.shoppinglistapp.data.webservice.request.RequestLogin
-import br.com.shoppinglistapp.data.webservice.request.RequestUserRegister
+import br.com.shoppinglistapp.data.webservice.request.RequestRegisterUser
 import br.com.shoppinglistapp.data.webservice.response.ResponseLogin
 import br.com.shoppinglistapp.data.webservice.response.ResponseUserRegister
 import retrofit2.Call
@@ -16,8 +16,8 @@ interface ShoppingListAppApi {
     ): Call<ResponseLogin>
 
     @POST("user/register")
-    fun userRegister(
-        @Body args: RequestUserRegister
+    fun registerUser(
+        @Body args: RequestRegisterUser
     ): Call<ResponseUserRegister>
 
 }
