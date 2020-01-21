@@ -15,8 +15,11 @@ class ItemShoppingListRepository {
         GlobalUtils.itemsShoppingList.add(item)
     }
 
-    fun deleteItem(item: ItemShoppingList) {
-        GlobalUtils.itemsShoppingList.remove(item)
+    fun markToDeleteItem(item: ItemShoppingList) {
+        GlobalUtils.itemsShoppingList.find { it.id == item.id }?.let{
+            it.deleted = true
+            it.sent = false
+        }
     }
 
     fun getOrderedItems(shoppingListId: String): List<ItemShoppingList>{
@@ -33,27 +36,26 @@ class ItemShoppingListRepository {
 
     fun updateSelectedItem(selectedItem: ItemShoppingList, shoppingListId: String) {
         getItems(shoppingListId).let {list ->
-            list.find { it.id == selectedItem.id }?.selected = selectedItem.selected
+            list.find { it.id == selectedItem.id }?.let {
+                it.selected = selectedItem.selected
+                it.sent = false
+            }
         }
     }
 
     private fun getItems(shoppingListId: String): List<ItemShoppingList>{
-        return GlobalUtils.itemsShoppingList.filter { it.shoppingListId == shoppingListId }
+        return GlobalUtils.itemsShoppingList.filter { it.shoppingListId == shoppingListId && !it.deleted }
     }
 
     suspend fun loadItemsShoppingListByShoppingListId(shoppingListId: String){
         try{
             if(LoggedUser.isLogged){
-                val initTime = System.nanoTime()
                 val response = withContext(Dispatchers.IO){
                     networkServiceProvider.getService().getItemsShoppingListByShoppingListId(shoppingListId).execute()
                 }
                 response.body()?.itemsShoppingList?.let { itemsShoppingListNonNullable ->
                     val receivedItemsShoppingLists = itemsShoppingListNonNullable.onEach { it.sent = true }
-                    val initAddInListTime = System.nanoTime()
                     filteredItemsShoppingList(receivedItemsShoppingLists, shoppingListId)
-                    println("${this@ItemShoppingListRepository.javaClass.name} - addInList time: ${ (System.nanoTime() - initAddInListTime) / 1000000}")
-                    println("${this@ItemShoppingListRepository.javaClass.name} - loadItemsShoppingList time: ${ (System.nanoTime() - initTime) / 1000000}")
                 }
             }
         }catch (e: Exception){

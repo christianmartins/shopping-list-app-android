@@ -118,7 +118,7 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
 
 
     override fun deleteItem(item: ItemShoppingList) {
-        presenter.deleteItem(item)
+        presenter.markToDeleteItem(item)
         loadList()
         updateTotalItemsToCompleteShoppingList()
     }

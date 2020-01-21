@@ -27,7 +27,7 @@ class ItemShoppingListFragmentPresenter{
         itemShoppingListRepository.updateSelectedItem(selectedItem, shoppingListId)
     }
 
-    fun deleteItem(item: ItemShoppingList) = itemShoppingListRepository.deleteItem(item)
+    fun markToDeleteItem(item: ItemShoppingList) = itemShoppingListRepository.markToDeleteItem(item)
 
     fun updateShoppingListTotalItems(shoppingListId: String, newTotal: Int){
         shoppingListRepository.updateShoppingListTotalItems(shoppingListId, newTotal)
