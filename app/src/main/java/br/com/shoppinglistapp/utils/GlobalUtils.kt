@@ -9,4 +9,9 @@ object GlobalUtils {
     val shoppingLists = ArrayList<ShoppingList>()
     val itemsShoppingList = ArrayList<ItemShoppingList>()
     var fragmentAlive = ""
+
+    fun clearLists(){
+        shoppingLists.clear()
+        itemsShoppingList.clear()
+    }
 }

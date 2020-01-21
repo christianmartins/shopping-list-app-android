@@ -31,8 +31,8 @@ class ShoppingListRepository {
     }
 
     private suspend fun send(shoppingLists: List<ShoppingList>): Boolean{
-        val listToSend = RequestSaveShoppingList(shoppingLists)
         return try{
+            val listToSend = RequestSaveShoppingList(shoppingLists)
             val response = withContext(Dispatchers.IO){
                 networkServiceProvider.getService().saveShoppingList(listToSend).execute()
             }
@@ -40,6 +40,22 @@ class ShoppingListRepository {
         }catch (e: Exception){
             e.printStackTrace()
             false
+        }
+    }
+
+    suspend fun loadListByUser(){
+        try{
+            LoggedUser.user?.let {user ->
+                val response = withContext(Dispatchers.IO){
+                    networkServiceProvider.getService().getShoppingListByUser(user.id).execute()
+                }
+                println(response)
+                response.body()?.shoppingLists?.let { shoppingListNonNullable ->
+                    GlobalUtils.shoppingLists.addAll(shoppingListNonNullable)
+                }
+            }
+        }catch (e: Exception){
+            e.printStackTrace()
         }
     }
 }

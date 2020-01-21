@@ -18,4 +18,8 @@ class ShoppingListFragmentPresenter {
         return ShoppingListRepository().sendAndRefreshShoppingList()
     }
 
+    suspend fun loadListByUser(){
+        return ShoppingListRepository().loadListByUser()
+    }
+
 }

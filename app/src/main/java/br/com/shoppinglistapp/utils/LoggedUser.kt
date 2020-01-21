@@ -1,7 +1,6 @@
 package br.com.shoppinglistapp.utils
 
 import br.com.shoppinglistapp.data.model.User
-import br.com.shoppinglistapp.extensions.nonNullable
 
 object LoggedUser {
 
@@ -9,8 +8,8 @@ object LoggedUser {
     var isLogged: Boolean = false
     var token = ""
 
-    fun getUserId(): String{
-        return user?.id?: "anonymous"
+    fun getUserId(): Int{
+        return user?.id?: 0
     }
 
     fun getAuthorName(): String{

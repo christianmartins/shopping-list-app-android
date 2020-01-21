@@ -12,6 +12,7 @@ import br.com.shoppinglistapp.extensions.setEmptyList
 import br.com.shoppinglistapp.extensions.yesAnswer
 import br.com.shoppinglistapp.presenter.ShoppingListFragmentPresenter
 import br.com.shoppinglistapp.utils.GlobalUtils
+import br.com.shoppinglistapp.utils.LoggedUser
 import br.com.shoppinglistapp.utils.RecognitionParams
 import br.com.shoppinglistapp.utils.enum.ActionType
 import br.com.shoppinglistapp.utils.event.RecognitionOnErrorEvent
@@ -31,8 +32,29 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
     private val adapter by lazy { ShoppingListAdapter(this) }
 
     init {
-        adapter.addAll(GlobalUtils.shoppingLists)
+        if(LoggedUser.isLogged)
+            loadList()
+        else{
+            adapter.addAll(GlobalUtils.shoppingLists)
+        }
     }
+
+    private fun isRefreshing(isRefresh: Boolean){
+        activity?.runOnUiThread {shopping_list_swipe_refresh.isRefreshing = isRefresh}
+    }
+
+    private fun loadList(){
+        isRefreshing(true)
+        println("${this.javaClass.name} loadList")
+        lifecycleScope.launch(Dispatchers.IO){
+            presenter.loadListByUser()
+            activity?.runOnUiThread {
+                adapter.addAll(GlobalUtils.shoppingLists)
+            }
+            isRefreshing(false)
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,

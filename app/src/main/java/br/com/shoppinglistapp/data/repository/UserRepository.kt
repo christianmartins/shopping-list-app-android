@@ -3,8 +3,6 @@ package br.com.shoppinglistapp.data.repository
 import br.com.shoppinglistapp.data.webservice.NetworkServiceProvider
 import br.com.shoppinglistapp.data.webservice.request.RequestLogin
 import br.com.shoppinglistapp.data.webservice.request.RequestRegisterUser
-import br.com.shoppinglistapp.extensions.nonNullable
-import br.com.shoppinglistapp.utils.GlobalUtils
 import br.com.shoppinglistapp.utils.LoggedUser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

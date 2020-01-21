@@ -12,6 +12,8 @@ import br.com.shoppinglistapp.R
 import br.com.shoppinglistapp.extensions.getSafeText
 import br.com.shoppinglistapp.extensions.nonNullable
 import br.com.shoppinglistapp.presenter.LoginPresenter
+import br.com.shoppinglistapp.utils.GlobalUtils
+import br.com.shoppinglistapp.utils.LoggedUser
 import kotlinx.android.synthetic.main.login_fragment_layout.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -70,6 +72,7 @@ class LoginFragment: BaseFragment() {
 
     private fun visitorEnterClick(){
         visitor_enter.setOnClickListener {
+            LoggedUser.clear()
             navigateToShoppingListFragment()
         }
     }
@@ -93,6 +96,7 @@ class LoginFragment: BaseFragment() {
 
     private fun navigateToShoppingListFragment(){
         activity?.runOnUiThread {
+            GlobalUtils.clearLists()
             findNavController().navigate(ShoppingListFragmentDirections.actionGlobalShoppingListFragment())
         }
     }
@@ -105,6 +109,7 @@ class LoginFragment: BaseFragment() {
 
     private fun navigateToUserRegister(){
         activity?.runOnUiThread {
+            GlobalUtils.clearLists()
             findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToUserRegistrationView())
         }
     }

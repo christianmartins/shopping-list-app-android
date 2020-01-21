@@ -6,16 +6,15 @@ import java.util.*
 
 object DateUtils {
 
-    fun getDateTime(): Long{
-        val cal = Calendar.getInstance(Locale.getDefault())
-        val dateFormat = SimpleDateFormat("ddMMyyyyHHmm", Locale.getDefault())
-        return dateFormat.format(cal.time).toLong()
+    fun getDateTime(): String{
+        val calendar = Calendar.getInstance(Locale.getDefault())
+        val dateFormat = SimpleDateFormat("ddMMyyyyHHmmss", Locale.getDefault())
+        return dateFormat.format(calendar.time)
     }
 
-    fun getFormatDateTime(time: Long): String {
-        val currentDateFormat = SimpleDateFormat("ddMMyyyyHHmm", Locale.getDefault())
-        val dateInString = time.toString()
-        val date = currentDateFormat.parse(dateInString)
+    fun getFormatDateTime(time: String): String {
+        val currentDateFormat = SimpleDateFormat("ddMMyyyyHHmmss", Locale.getDefault())
+        val date = currentDateFormat.parse(time)
         return date?.let {
             val format = SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.getDefault())
             format.format(date)
