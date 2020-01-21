@@ -22,8 +22,8 @@ import br.com.shoppinglistapp.view.adapter.ShoppingListAdapter
 import kotlinx.android.synthetic.main._empty_list_layout.*
 import kotlinx.android.synthetic.main.shopping_list_layout.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-
 
 class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickHandler{
 
@@ -31,30 +31,11 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
 
     private val adapter by lazy { ShoppingListAdapter(this) }
 
-    init {
-        if(LoggedUser.isLogged)
-            loadList()
-        else{
-            adapter.addAll(GlobalUtils.shoppingLists)
-        }
-    }
+    private var jobRefresh: Job? = null
 
     private fun isRefreshing(isRefresh: Boolean){
         activity?.runOnUiThread {shopping_list_swipe_refresh.isRefreshing = isRefresh}
     }
-
-    private fun loadList(){
-        isRefreshing(true)
-        println("${this.javaClass.name} loadList")
-        lifecycleScope.launch(Dispatchers.IO){
-            presenter.loadListByUser()
-            activity?.runOnUiThread {
-                adapter.addAll(GlobalUtils.shoppingLists)
-            }
-            isRefreshing(false)
-        }
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,9 +50,56 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
-        empty_list.text = getString(R.string.shopping_list_empty_list)
-        empty_list.setEmptyList(adapter.itemCount)
+        initDataShoppingList()
+        onRefreshListener()
     }
+
+    private fun initDataShoppingList(){
+        if(LoggedUser.isLogged){
+            lifecycleScope.launch(Dispatchers.IO){
+                loadListAsync()
+            }
+        }
+        else{
+            loadList()
+        }
+    }
+
+    private suspend fun loadListAsync(){
+        isRefreshing(true)
+        presenter.loadListByUser()
+        loadList()
+    }
+
+    private fun loadList(){
+        activity?.runOnUiThread {
+            adapter.clear()
+            adapter.addAll(GlobalUtils.shoppingLists)
+            empty_list.text = getString(R.string.shopping_list_empty_list)
+            empty_list.setEmptyList(adapter.itemCount)
+        }
+        isRefreshing(false)
+    }
+
+    private fun onRefreshListener(){
+        activity?.runOnUiThread {
+            shopping_list_swipe_refresh?.setOnRefreshListener {
+                if(jobRefresh?.isActive == true)
+                    jobRefresh?.cancel()
+
+                jobRefresh = lifecycleScope.launch(Dispatchers.IO) {
+                    refresh()
+                }
+            }
+        }
+    }
+
+    private suspend fun refresh(){
+        presenter.sendShoppingList()
+        loadListAsync()
+    }
+
+
 
     override fun initAdapter(){
         shopping_list_recycler_view?.adapter = adapter

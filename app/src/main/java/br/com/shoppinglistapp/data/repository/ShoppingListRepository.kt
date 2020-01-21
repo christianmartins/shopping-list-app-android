@@ -25,8 +25,10 @@ class ShoppingListRepository {
     suspend fun sendAndRefreshShoppingList(){
         if(LoggedUser.isLogged){
             val listToSend = GlobalUtils.shoppingLists.filter { it.sent.not() }
-            val isSuccess = send(listToSend)
-            if(isSuccess){ listToSend.onEach { it.sent = true } }
+            if(listToSend.isNotEmpty()){
+                val isSuccess = send(listToSend)
+                if(isSuccess){ listToSend.onEach { it.sent = true } }
+            }
         }
     }
 
@@ -50,8 +52,10 @@ class ShoppingListRepository {
                     networkServiceProvider.getService().getShoppingListByUser(user.id).execute()
                 }
                 println(response)
-                response.body()?.shoppingLists?.let { shoppingListNonNullable ->
-                    GlobalUtils.shoppingLists.addAll(shoppingListNonNullable)
+                response.body()?.shoppingLists?.let { shoppingListsNonNullable ->
+                    val receivedShoppingList = shoppingListsNonNullable.onEach { it.sent = true }
+                    GlobalUtils.shoppingLists.clear()
+                    GlobalUtils.shoppingLists.addAll(receivedShoppingList)
                 }
             }
         }catch (e: Exception){

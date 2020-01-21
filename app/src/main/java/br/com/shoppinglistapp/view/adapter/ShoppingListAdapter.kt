@@ -41,4 +41,8 @@ class ShoppingListAdapter(private val clickHandler: ShoppingFragmentListClickHan
         this.shoppingLists.add(shoppingList)
         this.notifyItemInserted(this.shoppingLists.size)
     }
+
+    fun clear(){
+        this.shoppingLists.clear()
+    }
 }

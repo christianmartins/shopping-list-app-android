@@ -8,10 +8,7 @@ import br.com.shoppinglistapp.data.webservice.response.ResponseSaveShoppingList
 import br.com.shoppinglistapp.data.webservice.response.ResponseShoppingList
 import br.com.shoppinglistapp.data.webservice.response.ResponseUserRegister
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ShoppingListAppApi {
 
@@ -30,9 +27,9 @@ interface ShoppingListAppApi {
         @Body args: RequestSaveShoppingList
     ): Call<ResponseSaveShoppingList>
 
-    @GET("shopping-list/user")
+    @GET("shopping-list/user/{userId}")
     fun getShoppingListByUser(
-        @Query("userId") userId: Int
+        @Path("userId") userId: Int
     ): Call<ResponseShoppingList>
 
 }

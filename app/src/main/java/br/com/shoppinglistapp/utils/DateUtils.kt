@@ -13,12 +13,17 @@ object DateUtils {
     }
 
     fun getFormatDateTime(time: String): String {
-        val currentDateFormat = SimpleDateFormat("ddMMyyyyHHmmss", Locale.getDefault())
-        val date = currentDateFormat.parse(time)
-        return date?.let {
-            val format = SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.getDefault())
-            format.format(date)
-        }?: ""
+        return try{
+            val currentDateFormat = SimpleDateFormat("ddMMyyyyHHmmss", Locale.getDefault())
+            val date = currentDateFormat.parse(time)
+             date?.let {
+                val format = SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.getDefault())
+                format.format(date)
+            }?: ""
+        }catch (e: Exception){
+            e.printStackTrace()
+            ""
+        }
     }
 
     fun getTimeStamp() = System.currentTimeMillis()
