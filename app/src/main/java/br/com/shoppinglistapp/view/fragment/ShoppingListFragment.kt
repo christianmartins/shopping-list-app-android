@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import br.com.shoppinglistapp.R
 import br.com.shoppinglistapp.data.model.ShoppingList
@@ -19,6 +20,8 @@ import br.com.shoppinglistapp.utils.interfaces.ShoppingFragmentListClickHandler
 import br.com.shoppinglistapp.view.adapter.ShoppingListAdapter
 import kotlinx.android.synthetic.main._empty_list_layout.*
 import kotlinx.android.synthetic.main.shopping_list_layout.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickHandler{
@@ -64,7 +67,7 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
                 }
                 speakOk()
             } else {
-                val shoppingList = presenter.getData().copy(title = bestResult)
+                val shoppingList = presenter.createShoppingList(bestResult)
                 addItemInAdapter(shoppingList)
 
                 val params = RecognitionParams(ActionType.REDIRECT_TO_ITEM_SHOPPING_LIST, shoppingList.id)
@@ -102,5 +105,16 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
 
     override fun onClickItemList(shoppingListId: String) {
         navigateToItemsShoppingListFragment(shoppingListId)
+    }
+
+    override fun onPause() {
+        sendShoppingList()
+        super.onPause()
+    }
+
+    private fun sendShoppingList(){
+        lifecycleScope.launch(Dispatchers.IO) {
+            presenter.sendShoppingList()
+        }
     }
 }

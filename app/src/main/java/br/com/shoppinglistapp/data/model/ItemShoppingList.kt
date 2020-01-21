@@ -12,5 +12,6 @@ data class ItemShoppingList(
     @ColumnInfo var shoppingListId: String,
     @ColumnInfo var deleted: Boolean,
     @ColumnInfo var createAt: Long,
-    @ColumnInfo var updateAt: Long
+    @ColumnInfo var updateAt: Long,
+    @ColumnInfo var sent: Boolean
 ) : BaseModel()

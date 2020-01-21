@@ -5,6 +5,7 @@ import br.com.shoppinglistapp.data.webservice.request.RequestLogin
 import br.com.shoppinglistapp.data.webservice.request.RequestRegisterUser
 import br.com.shoppinglistapp.extensions.nonNullable
 import br.com.shoppinglistapp.utils.GlobalUtils
+import br.com.shoppinglistapp.utils.LoggedUser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -19,7 +20,14 @@ class UserRepository {
 
             if(response.isSuccessful){
                 val token = response.body()?.token
-                GlobalUtils.token = token.nonNullable()
+                val user = response.body()?.user
+
+                if(token != null && user != null){
+                    LoggedUser.isLogged(token, user)
+                }else{
+                    LoggedUser.clear()
+                }
+
                 token != null
             }else{
                 false
