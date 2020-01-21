@@ -51,7 +51,6 @@ class ShoppingListRepository {
                 val response = withContext(Dispatchers.IO){
                     networkServiceProvider.getService().getShoppingListByUser(user.id).execute()
                 }
-                println(response)
                 response.body()?.shoppingLists?.let { shoppingListsNonNullable ->
                     val receivedShoppingList = shoppingListsNonNullable.onEach { it.sent = true }
                     GlobalUtils.shoppingLists.clear()

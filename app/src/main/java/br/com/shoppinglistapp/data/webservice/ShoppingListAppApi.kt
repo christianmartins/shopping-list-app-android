@@ -2,11 +2,9 @@ package br.com.shoppinglistapp.data.webservice
 
 import br.com.shoppinglistapp.data.webservice.request.RequestLogin
 import br.com.shoppinglistapp.data.webservice.request.RequestRegisterUser
+import br.com.shoppinglistapp.data.webservice.request.RequestSaveItemShoppingList
 import br.com.shoppinglistapp.data.webservice.request.RequestSaveShoppingList
-import br.com.shoppinglistapp.data.webservice.response.ResponseLogin
-import br.com.shoppinglistapp.data.webservice.response.ResponseSaveShoppingList
-import br.com.shoppinglistapp.data.webservice.response.ResponseShoppingList
-import br.com.shoppinglistapp.data.webservice.response.ResponseUserRegister
+import br.com.shoppinglistapp.data.webservice.response.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -31,5 +29,16 @@ interface ShoppingListAppApi {
     fun getShoppingListByUser(
         @Path("userId") userId: Int
     ): Call<ResponseShoppingList>
+
+    @GET("item-shopping-list/shopping-list-id/{shoppingListId}")
+    fun getItemsShoppingListByShoppingListId(
+        @Path("shoppingListId") shoppingListId: String
+    ): Call<ResponseItemShoppingList>
+
+    @POST("item-shopping-list/save")
+    fun saveItemsShoppingList(
+        @Body args: RequestSaveItemShoppingList
+    ): Call<ResponseSaveItemShoppingList>
+
 
 }

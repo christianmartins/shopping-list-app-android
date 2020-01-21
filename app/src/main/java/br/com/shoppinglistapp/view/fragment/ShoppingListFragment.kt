@@ -55,14 +55,10 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
     }
 
     private fun initDataShoppingList(){
-        if(LoggedUser.isLogged){
-            lifecycleScope.launch(Dispatchers.IO){
-                loadListAsync()
-            }
-        }
-        else{
+        if(LoggedUser.isLogged)
+            lifecycleScope.launch(Dispatchers.IO){ loadListAsync() }
+        else
             loadList()
-        }
     }
 
     private suspend fun loadListAsync(){
@@ -98,8 +94,6 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
         presenter.sendShoppingList()
         loadListAsync()
     }
-
-
 
     override fun initAdapter(){
         shopping_list_recycler_view?.adapter = adapter

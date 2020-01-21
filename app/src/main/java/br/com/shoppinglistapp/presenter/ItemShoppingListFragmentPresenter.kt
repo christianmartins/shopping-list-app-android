@@ -33,4 +33,11 @@ class ItemShoppingListFragmentPresenter{
         shoppingListRepository.updateShoppingListTotalItems(shoppingListId, newTotal)
     }
 
+    suspend fun loadItemsShoppingListByShoppingListId(shoppingListId: String){
+        itemShoppingListRepository.loadItemsShoppingListByShoppingListId(shoppingListId)
+    }
+
+    suspend fun sendItemsShoppingList(shoppingListId: String){
+        return itemShoppingListRepository.sendAndRefreshItemShoppingList(shoppingListId)
+    }
 }
