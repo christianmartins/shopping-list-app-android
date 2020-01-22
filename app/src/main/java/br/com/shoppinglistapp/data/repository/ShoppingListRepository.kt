@@ -81,4 +81,11 @@ class ShoppingListRepository {
         return GlobalUtils.shoppingLists.filter { !it.deleted }
     }
 
+    fun updateTitle(newValue: String, shoppingList: ShoppingList){
+        GlobalUtils.shoppingLists.find { it.id == shoppingList.id }?.let{
+            it.title = newValue
+            it.sent = false
+        }
+    }
+
 }

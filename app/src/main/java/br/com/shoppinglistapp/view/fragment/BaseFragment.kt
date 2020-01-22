@@ -13,6 +13,7 @@ import br.com.shoppinglistapp.extensions.show
 import br.com.shoppinglistapp.utils.GlobalUtils
 import br.com.shoppinglistapp.utils.event.MessageEvent
 import br.com.shoppinglistapp.view.activity.MainActivity
+import br.com.shoppinglistapp.view.utils.CustomTextInputLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -126,6 +127,40 @@ open class BaseFragment: Fragment(){
                 setNegativeButton(resStringNegativeButton, negativeClickListener)
         }.show()
     }
+
+    fun editMessage(
+        @StringRes resStringTitle: Int,
+        @StringRes resStringHint: Int,
+        text: String = getString(R.string.nothing),
+        @StringRes resStringPositiveButton: Int = R.string.ok_confirm,
+        @StringRes resStringNegativeButton: Int = R.string.close_confirm,
+        onYesClick:((newValue: String) -> Unit)? = null,
+        onNoClick:(() -> Unit)? = null
+    ){
+        context?.let {contextNonNullable->
+            val editText = createCustomTextInputLayout(contextNonNullable, resStringHint, text)
+
+            MaterialAlertDialogBuilder(context)
+                .setTitle(resStringTitle)
+                .setView(editText)
+                .setPositiveButton(resStringPositiveButton) { dialogInterface, _ ->
+                    onYesClick?.invoke(editText.getText())
+                    dialogInterface.dismiss()
+                }
+                .setNegativeButton(resStringNegativeButton) { dialogInterface, _ ->
+                    onNoClick?.invoke()
+                    dialogInterface.dismiss()
+                }.show()
+        }
+    }
+
+    private fun createCustomTextInputLayout(context: Context, @StringRes resStringHint: Int, textArgs: String): CustomTextInputLayout{
+        return CustomTextInputLayout(context).apply {
+            setHint(getString(resStringHint))
+            setText(textArgs)
+        }
+    }
+
 
     fun showProgressBarDialog(context: Context): AlertDialog{
         return MaterialAlertDialogBuilder(context)

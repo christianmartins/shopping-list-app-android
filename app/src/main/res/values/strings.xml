@@ -13,6 +13,9 @@
     <string name="shopping_list_current_progress">%d / %d</string>
     <string name="created_by">Criado por: %s</string>
     <string name="shopping_list_delete_item">Deseja realmente deletar essa lista?</string>
+    <string name="shopping_list_edit_item">Edição do título da lista de compras</string>
+    <string name="shopping_list_hint_dialog">Título</string>
+
 
     <!--Speak-->
         <string name="shopping_list_empty_list">Clique no + para criar uma nova lista!</string>
@@ -73,6 +76,8 @@
     <string name="delete">Deletar</string>
     <string name="yes_confirm">SIM</string>
     <string name="no_confirm">NÃO</string>
+    <string name="close_confirm">FECHAR</string>
+
 
     <!-- error -->
     <string name="generic_dialog_title">Atenção!</string>

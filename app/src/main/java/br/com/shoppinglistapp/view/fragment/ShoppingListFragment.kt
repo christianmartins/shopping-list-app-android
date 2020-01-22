@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import br.com.shoppinglistapp.R
@@ -164,8 +165,21 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
     }
 
     override fun onClickEditItemList(shoppingList: ShoppingList) {
-
+        editMessage(
+            resStringTitle = R.string.shopping_list_edit_item,
+            resStringHint = R.string.shopping_list_hint_dialog,
+            text = shoppingList.title,
+            onYesClick = {newValue ->
+                updateTitle(newValue, shoppingList)
+            }
+        )
     }
+
+    private fun updateTitle(newValue: String, shoppingList: ShoppingList){
+        presenter.updateTitle(newValue, shoppingList)
+        adapter.notifyDataSetChanged()
+    }
+
 
     override fun onPause() {
         sendShoppingList()

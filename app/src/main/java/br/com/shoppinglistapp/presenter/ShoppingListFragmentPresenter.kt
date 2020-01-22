@@ -32,4 +32,8 @@ class ShoppingListFragmentPresenter {
     fun getOrderedItems(): List<ShoppingList>{
         return shoppingListRepository.getOrderedItems()
     }
+
+    fun updateTitle(newValue: String, shoppingList: ShoppingList){
+        shoppingListRepository.updateTitle(newValue, shoppingList)
+    }
 }
