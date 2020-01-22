@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.FrameLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import br.com.shoppinglistapp.R
 import br.com.shoppinglistapp.data.model.ShoppingList
 import br.com.shoppinglistapp.extensions.setEmptyList
@@ -25,6 +27,7 @@ import kotlinx.android.synthetic.main.shopping_list_layout.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+
 
 class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickHandler{
 
@@ -53,6 +56,7 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
         initAdapter()
         initDataShoppingList()
         onRefreshListener()
+        marginInRecyclerView()
     }
 
     private fun initDataShoppingList(){
@@ -190,5 +194,40 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
         lifecycleScope.launch(Dispatchers.IO) {
             presenter.sendShoppingList()
         }
+    }
+
+    private fun marginInRecyclerView(){
+        shopping_list_recycler_view?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                shopping_list_swipe_refresh?.let {
+                    val totalItemCount = recyclerView.layoutManager?.itemCount?: 0
+                    val lastVisibleItem = (recyclerView.layoutManager as? LinearLayoutManager)?.findLastCompletelyVisibleItemPosition()?: 0
+                    val marginLayoutParams = FrameLayout.LayoutParams(it.layoutParams)
+
+                    val text = "->> totalItemCount = $totalItemCount -- lastVisibleItem = $lastVisibleItem}"
+
+                    val textTest: String
+                    if ((lastVisibleItem + 2) >= totalItemCount) {
+                        if(newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                            marginLayoutParams.bottomMargin = 80
+                            it.layoutParams = marginLayoutParams
+
+                            textTest = "Apply margin -> "
+                            println(textTest + text)
+                        }
+                    }else {
+                        if (newState == RecyclerView.SCROLL_STATE_IDLE){
+                            marginLayoutParams.bottomMargin = 0
+                            it.layoutParams = marginLayoutParams
+
+                            textTest = "Remove margin"
+                            println(textTest + text)
+                        }
+                    }
+                }
+            }
+        })
     }
 }
