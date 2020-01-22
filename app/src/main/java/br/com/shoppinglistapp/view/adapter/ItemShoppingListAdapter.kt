@@ -31,26 +31,8 @@ class ItemShoppingListAdapter(
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val item = itemsShoppingList[position]
-        setSection(holder, item)
         holder.setItem(item)
     }
-
-    private fun setSection(baseViewHolder: BaseViewHolder, itemShoppingList: ItemShoppingList){
-        val myHolder = baseViewHolder as ItemShoppingListViewHolder
-        val isFirstNoSelected = itemsShoppingList.firstOrNull{ !it.selected }?.id == itemShoppingList.id
-
-        try{
-            if(isFirstNoSelected){
-                myHolder.setSection(true, R.string.not_added_in_cart)
-            }else{
-                val isFirstSelected= itemsShoppingList.firstOrNull{ it.selected }?.id == itemShoppingList.id
-                myHolder.setSection(isFirstSelected, R.string.added_in_cart)
-            }
-        }catch (e: Exception){
-            e.printStackTrace()
-        }
-    }
-
 
     fun add(item: ItemShoppingList){
         this.itemsShoppingList.add(item)
@@ -60,12 +42,6 @@ class ItemShoppingListAdapter(
     fun addAll(items: List<ItemShoppingList>){
         this.itemsShoppingList.addAll(items)
         this.notifyDataSetChanged()
-    }
-
-    fun remove(item: ItemShoppingList){
-        val position = this.itemsShoppingList.indexOf(item)
-        this.itemsShoppingList.removeAt(position)
-        this.notifyItemRemoved(position)
     }
 
     fun clear(){

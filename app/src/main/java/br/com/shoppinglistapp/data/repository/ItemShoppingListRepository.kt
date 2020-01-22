@@ -27,11 +27,7 @@ class ItemShoppingListRepository {
     }
 
     private fun orderingList(list: List<ItemShoppingList>): List<ItemShoppingList> {
-        return list.sortedWith(
-            compareBy(
-                { it.selected }, { it.createAt }
-            )
-        )
+        return list.sortedBy { it.createAt }
     }
 
     fun updateSelectedItem(selectedItem: ItemShoppingList, shoppingListId: String) {
