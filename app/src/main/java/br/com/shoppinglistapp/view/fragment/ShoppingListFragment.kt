@@ -70,7 +70,7 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
     private fun loadList(){
         activity?.runOnUiThread {
             adapter.clear()
-            adapter.addAll(GlobalUtils.shoppingLists)
+            adapter.addAll(presenter.getOrderedItems())
             empty_list.text = getString(R.string.shopping_list_empty_list)
             empty_list.setEmptyList(adapter.itemCount)
         }
@@ -149,6 +149,22 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
 
     override fun onClickItemList(shoppingListId: String) {
         navigateToItemsShoppingListFragment(shoppingListId)
+    }
+
+    override fun onClickDeleteItemList(shoppingList: ShoppingList) {
+        context?.let {
+            yesConfirmMessage(
+                resStringMessage = R.string.shopping_list_delete_item,
+                onYesClick = {
+                    presenter.deleteItem(shoppingList)
+                    loadList()
+                }
+            )
+        }
+    }
+
+    override fun onClickEditItemList(shoppingList: ShoppingList) {
+
     }
 
     override fun onPause() {

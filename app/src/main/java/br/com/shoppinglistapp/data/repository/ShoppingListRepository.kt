@@ -61,4 +61,24 @@ class ShoppingListRepository {
             e.printStackTrace()
         }
     }
+
+    fun markToDeleteItem(shoppingList: ShoppingList) {
+        GlobalUtils.shoppingLists.find { it.id == shoppingList.id }?.let{
+            it.deleted = true
+            it.sent = false
+        }
+    }
+
+    fun getOrderedItems(): List<ShoppingList>{
+        return orderingList(getItems())
+    }
+
+    private fun orderingList(list: List<ShoppingList>): List<ShoppingList> {
+        return list.sortedBy { it.createAt }
+    }
+
+    private fun getItems(): List<ShoppingList>{
+        return GlobalUtils.shoppingLists.filter { !it.deleted }
+    }
+
 }

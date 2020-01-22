@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import br.com.shoppinglistapp.R
 import br.com.shoppinglistapp.extensions.hide
@@ -85,7 +84,31 @@ open class BaseFragment: Fragment(){
         }
     }
 
-    @Suppress("SameParameterValue")
+    fun yesConfirmMessage(
+        @StringRes resStringTitle: Int = R.string.generic_dialog_title,
+        @StringRes resStringMessage: Int,
+        onYesClick:(() -> Unit)? = null,
+        onNoClick:(() -> Unit)? = null
+    ){
+        context?.let {
+            confirmMessage(
+                context = it,
+                resStringTitle = resStringTitle,
+                resStringMessage = resStringMessage,
+                resStringPositiveButton = R.string.yes_confirm,
+                resStringNegativeButton = R.string.no_confirm,
+                positiveClickListener = DialogInterface.OnClickListener { dialogInterface, _ ->
+                    onYesClick?.invoke()
+                    dialogInterface.dismiss()
+                },
+                negativeClickListener =  DialogInterface.OnClickListener { dialogInterface, _ ->
+                    onNoClick?.invoke()
+                    dialogInterface.dismiss()
+                }
+            )
+        }
+    }
+
     private fun confirmMessage(
         context: Context,
         @StringRes resStringTitle: Int,

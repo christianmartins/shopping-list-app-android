@@ -12,6 +12,8 @@
     <string name="shopping_list_author_name">Criado por: %s</string>
     <string name="shopping_list_current_progress">%d / %d</string>
     <string name="created_by">Criado por: %s</string>
+    <string name="shopping_list_delete_item">Deseja realmente deletar essa lista?</string>
+
     <!--Speak-->
         <string name="shopping_list_empty_list">Clique no + para criar uma nova lista!</string>
         <string name="shopping_list_redirect_to_item_shopping_list">Após o bip diga se deseja ser redirecionado para adicionar os itens da lista de compras? Sim ou não</string>
@@ -67,6 +69,10 @@
     <string name="nothing"/>
     <string name="url_debug">http://192.168.25.16:3000/</string>
     <string name="url_release">http://177.207.98.195:3000/</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Deletar</string>
+    <string name="yes_confirm">SIM</string>
+    <string name="no_confirm">NÃO</string>
 
     <!-- error -->
     <string name="generic_dialog_title">Atenção!</string>

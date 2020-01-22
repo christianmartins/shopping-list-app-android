@@ -84,6 +84,7 @@
                 android:textSize="12sp"
                 android:layout_below="@+id/shopping_list_author_name"
                 android:layout_alignParentEnd="true"
+                android:visibility="invisible"
                 />
 
         </RelativeLayout>
