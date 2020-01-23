@@ -56,6 +56,7 @@ abstract class BaseSpeakAndRecognitionFragment: BaseFragment(){
 
     protected fun speak(@StringRes stringRes: Int, onSpeakDone:(() -> Unit)? = null, params: Bundle? = null){
         activity?.runOnUiThread {
+            getWeakMainActivity().get()?.checkAudioRecordPermission()
             speakUtils?.speak(getString(stringRes), onSpeakDone, params)
         }
     }

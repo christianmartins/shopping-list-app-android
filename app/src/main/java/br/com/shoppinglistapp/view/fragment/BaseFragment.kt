@@ -39,7 +39,7 @@ open class BaseFragment: Fragment(){
         super.onStop()
     }
 
-    private fun getWeakMainActivity(): WeakReference<MainActivity?> {
+    fun getWeakMainActivity(): WeakReference<MainActivity?> {
         return WeakReference(activity as? MainActivity)
     }
 
