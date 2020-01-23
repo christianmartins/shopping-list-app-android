@@ -38,7 +38,7 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
     private var jobRefresh: Job? = null
 
     private fun isRefreshing(isRefresh: Boolean){
-        activity?.runOnUiThread {shopping_list_swipe_refresh.isRefreshing = isRefresh}
+        activity?.runOnUiThread {shopping_list_swipe_refresh?.isRefreshing = isRefresh}
     }
 
     override fun onCreateView(
@@ -74,10 +74,14 @@ class ShoppingListFragment: BaseCollectionFragment(), ShoppingFragmentListClickH
 
     private fun loadList(){
         activity?.runOnUiThread {
-            adapter.clear()
-            adapter.addAll(presenter.getOrderedItems())
-            empty_list.text = getString(R.string.shopping_list_empty_list)
-            empty_list.setEmptyList(adapter.itemCount)
+            try{
+                adapter.clear()
+                adapter.addAll(presenter.getOrderedItems())
+                empty_list.text = getString(R.string.shopping_list_empty_list)
+                empty_list.setEmptyList(adapter.itemCount)
+            }catch (e: Exception){
+                e.printStackTrace()
+            }
         }
         isRefreshing(false)
     }

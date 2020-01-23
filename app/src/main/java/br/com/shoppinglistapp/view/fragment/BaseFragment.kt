@@ -166,6 +166,7 @@ open class BaseFragment: Fragment(){
         return MaterialAlertDialogBuilder(context)
         .setBackground(ColorDrawable(Color.TRANSPARENT))
         .setView(R.layout._progress_bar)
+        .setCancelable(false)
         .show()
     }
 }

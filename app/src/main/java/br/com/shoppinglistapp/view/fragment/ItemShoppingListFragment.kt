@@ -108,7 +108,7 @@ class ItemShoppingListFragment: BaseCollectionFragment(), ItemShoppingListListen
     }
 
     private fun isRefreshing(isRefresh: Boolean){
-        activity?.runOnUiThread {item_shopping_list_swipe_refresh.isRefreshing = isRefresh}
+        activity?.runOnUiThread {item_shopping_list_swipe_refresh?.isRefreshing = isRefresh}
     }
 
     private suspend fun refresh(){
