@@ -95,7 +95,7 @@
 
     <string name="user_registration_view_register_is_success">Cadastro realizado com sucesso!</string>
     <string name="user_registration_view_register_not_is_success">Falha ao cadastrar o usuário!</string>
-
+    <string name="request_permission_record_audio_failed">Ok, permissão negada para gravar audio!</string>
 
 
 </resources>

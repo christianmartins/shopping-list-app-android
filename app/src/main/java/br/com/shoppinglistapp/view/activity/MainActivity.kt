@@ -74,7 +74,7 @@ class MainActivity : BaseActivity(){
         when (requestCode) {
             permissionRecordAudioCode -> {
                 if (grantResults.isNotEmpty().not() && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Ok, permissão negada para gravar audio!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.request_permission_record_audio_failed), Toast.LENGTH_LONG).show()
                 }
                 return
             }
